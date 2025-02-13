@@ -1,0 +1,18 @@
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100vw;
+    margin: 30px 10px 100px 10px;
+    align-items: center;
+    color: black;
+}
+.nav-bar a {
+    text-decoration: none;
+}
+.nav-bar :visited {
+    color: black;
+}
+.nav-bar :hover {
+    color: rgb(177, 164, 164);
+}
