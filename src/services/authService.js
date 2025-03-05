@@ -77,8 +77,9 @@ const getUser = () => {
   if (!access) return null;
   const user = localStorage.getItem('user');
   return user;
-  console.log(user)
+  
 };
+
 
 // signout function
 const signout = () => {

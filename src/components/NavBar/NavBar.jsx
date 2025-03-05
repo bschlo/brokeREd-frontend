@@ -10,7 +10,8 @@ const NavBar = ({ handleSignout}) => {
       { user ? (
         <nav className='nav-bar'>
             <div className='nav-home'><Link to="/">Home</Link></div>
-            <div className='nav-all-deals'><Link to="/all-deals">All Deals</Link></div>
+            <div className='nav-all-deals'><Link to="/deals">All Deals</Link></div>
+            <div><Link to='/deals/new'>Create A Deal</Link></div>
             <div className='nav-signout'><Link to="" onClick={handleSignout}>Sign Out</Link></div>
         </nav>
       ) : (
