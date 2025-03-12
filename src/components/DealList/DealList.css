@@ -10,9 +10,7 @@
     color: black;
 }
 
-.deal-list :hover {
-    color: rgb(177, 164, 164);
-}
+
 
 .deal-item {
     margin-bottom: 20px;
@@ -63,7 +61,7 @@
 }
 
 .deal-image-container:hover .deal-info-box {
-    height: 250px; /* Expand box on hover */
+    height: 190px; /* Expand box on hover */
 }
 
 .deal-image-container:hover .deal-details {

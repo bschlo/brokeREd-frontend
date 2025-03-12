@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router";
 import "./DealList.css";
 
-const DealList = ({ deals }) => {
+const DealList = ({ deals}) => {
+ 
   return (
     <main className="deal-list">
       <div className="deal-list-container">
@@ -19,9 +20,9 @@ const DealList = ({ deals }) => {
                     <div className="deal-loan-amount">${deal.loan_amount.toLocaleString()}</div>
                   </div>
                   <div className="deal-details">
-                    <div>{deal.deal_type}</div>
+                    <div>{deal.deal_type} Loan</div>
                     <div>{deal.asset_class}</div>
-                    <div>{`Posted on: ${new Date(deal.date).toLocaleDateString()}`}</div>
+                    <div>{`${deal.user.username} posted on: ${new Date(deal.date).toLocaleDateString()}`}</div>
                     {deal.developers.map((developer) => (
                       <div key={developer.id}>{developer.name}</div>
                     ))}
