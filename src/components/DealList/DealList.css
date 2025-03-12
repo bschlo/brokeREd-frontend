@@ -1,3 +1,77 @@
-.deal-list-container {
+.deal-list {
     margin: 0px 100px 0px 100px;
 }
+
+.deal-list a {
+    text-decoration: none;
+}
+
+.deal-list :visited {
+    color: black;
+}
+
+.deal-list :hover {
+    color: rgb(177, 164, 164);
+}
+
+.deal-item {
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden; /* Prevent content from spilling outside the container */
+}
+
+.deal-image-container {
+    position: relative;
+    width: 100%;
+    max-width: 350px; /* Image width */
+}
+
+.deal-list-img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.deal-info-box {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+    color: white;
+    padding: 15px;
+    box-sizing: border-box;
+    transition: height 0.3s ease; /* Smooth transition on hover */
+    height: 105px; /* Default height showing only the summary */
+    overflow: hidden; /* Prevent overflow when expanded */
+}
+
+.deal-summary {
+    display: flex;
+    flex-direction: column;
+}
+
+.deal-name, .deal-address, .deal-loan-amount {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.deal-details {
+    display: none; /* Hidden by default */
+    margin-top: 10px;
+}
+
+.deal-image-container:hover .deal-info-box {
+    height: 250px; /* Expand box on hover */
+}
+
+.deal-image-container:hover .deal-details {
+    display: block; /* Show extra deal details on hover */
+}
+
+.deal-info-box div {
+    margin: 5px 0;
+}
+
+
