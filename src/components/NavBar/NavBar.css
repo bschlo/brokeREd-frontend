@@ -1,18 +1,35 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
 .nav-bar {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    width: 100vw;
-    margin: 30px 10px 100px 10px;
     align-items: center;
-    color: black;
+    background-color: black;
+    color: white;
+    width: 100vw;
+    height: 50px;
+    margin: 0px 0px 110px 0px;
+}
+.nav-bar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0px 50px 0px 50px;  
 }
 .nav-bar a {
     text-decoration: none;
 }
 .nav-bar :visited {
-    color: black;
+    color: white;
 }
 .nav-bar :hover {
     color: rgb(177, 164, 164);
+}
+
+.nav-element {
+    width: fit-content;
 }
