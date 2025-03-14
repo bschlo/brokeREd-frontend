@@ -9,9 +9,9 @@ const DealList = ({ deals}) => {
       <div className="deal-list-container">
         <div className="deal-list-elements">
           {deals.map((deal) => (
-            <Link to={`/deals/${deal.id}`}>
             <div key={deal.id} className="deal-item">
               <div className="deal-image-container">
+              <Link to={`/deals/${deal.id}`}>
                 <img className="deal-list-img" src={deal.image_url} alt={`${deal.name} image`} />
                 <div className="deal-info-box">
                   <div className="deal-summary">
@@ -28,9 +28,9 @@ const DealList = ({ deals}) => {
                     ))}
                   </div>
                 </div>
+                </Link>
               </div>
             </div>
-            </Link>
           ))}
         </div>
       </div>
