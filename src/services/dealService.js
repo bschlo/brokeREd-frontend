@@ -35,7 +35,12 @@ const create = async (dealFormData) => {
       },
       body: JSON.stringify(dealFormData),
     });
-    return res.json();
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.error('Error response:', errorData);
+      throw new Error(`Request failed with status ${res.status}: ${JSON.stringify(errorData)}`);
+    }
+    return await res.json();
   } catch (error) {
     console.log(error);
   }
@@ -69,12 +74,23 @@ const updateDeal = async (dealId, dealFormData) => {
     console.log(error);
   }
 }
-  
+
+const fetchDevelopers = async () => {
+  try {
+    const res = await fetch(`${BACKEND_URL}/developers/`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
+    });
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching developers:', error);
+  }
+};
   export { 
     index,
     show,
     create,
     deleteDeal,
     updateDeal,
+    fetchDevelopers,
   };
   

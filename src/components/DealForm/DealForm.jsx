@@ -42,34 +42,66 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     asset_class: ASSETCLASSES[0],
     image_url: '',
     description: '',
+    developers: []
   });
+  const [developers, setDevelopers] = useState([])
+  const { dealId } = useParams()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if(name === 'developers') {
+      const selectedValues = Array.from(e.target.selectedOptions, option => option.value)
+      setFormData({
+        ...formData,
+        developers: selectedValues
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (dealId) {
-        handleUpdateDeal(dealId, formData)
-    } else {
-        handleAddDeal(formData)
-    }
     
+    // Create a proper format for developers with name field
+    const formattedData = {
+      ...formData,
+      developers: formData.developers.map(developerId => {
+        // Find the developer object from your developers state to get the name
+        const developer = developers.find(dev => dev.id.toString() === developerId.toString());
+        return {
+          id: developerId,
+          name: developer?.name || '' // Include the name field that backend expects
+        };
+      })
+    };
+    
+    if (dealId) {
+      handleUpdateDeal(dealId, formattedData);
+    } else {
+      handleAddDeal(formattedData);
+    }
   };
-  const { dealId } = useParams()
   
 
   useEffect(() => {
+    
+    const fetchDevelopers = async () => {
+      try {
+        const data = await dealService.fetchDevelopers();
+        setDevelopers(data.developers);
+      } catch (error) {
+        console.error('Error fetching developers:', error);
+      }
+    };
+
     const fetchDeal = async () => {
       if (dealId) {
         try {
           const dealData = await dealService.show(dealId);
-          // Ensure we are mapping the response correctly to formData
           if (dealData && dealData.deal) {
             setFormData({
               name: dealData.deal.name || '',
@@ -84,6 +116,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               asset_class: dealData.deal.asset_class || ASSETCLASSES[0],
               image_url: dealData.deal.image_url || '',
               description: dealData.deal.description || '',
+              developers: dealData.deal.developers || [], // Set developers if present
             });
           }
         } catch (error) {
@@ -91,7 +124,8 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
         }
       }
     };
-  
+
+    fetchDevelopers();
     if (dealId) fetchDeal();
   }, [dealId]);
 
@@ -122,6 +156,25 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
             required
           />
         </div>
+
+        <div>
+          <label htmlFor="developers">Developers:</label>
+          <select
+            id="developers"
+            name="developers"
+            value={formData.developers}
+            onChange={handleChange}
+            multiple
+            required
+          >
+            {developers.map((developer) => (
+              <option key={developer.id} value={developer.id}>
+                {developer.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
 
         <div>
           <label htmlFor="stories">Stories:</label>
