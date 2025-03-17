@@ -10,6 +10,7 @@ const DealDetails = ({ handleDeleteDeal }) => {
   const user = useContext(AuthedUserContext);
   const [deal, setDeal] = useState(null);
   const navigate = useNavigate();
+  console.log(deal)
 
   useEffect(() => {
     const fetchDeal = async () => {

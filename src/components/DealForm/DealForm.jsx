@@ -1,59 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import * as dealService from '../../services/dealService'
-import { useParams } from 'react-router';
+import React, { useState, useEffect } from "react";
+import * as dealService from "../../services/dealService";
+import { useParams } from "react-router";
 
 const DEALTYPES = [
-  'Acquisition',
-  'Condo Inventory',
-  'Construction',
-  'Covered Land',
-  'Office to Condo Conversion',
-  'Office to Multifamily Conversion',
-  'Refinance',
-  'TCO'
+  "Acquisition",
+  "Condo Inventory",
+  "Construction",
+  "Covered Land",
+  "Office to Condo Conversion",
+  "Office to Multifamily Conversion",
+  "Refinance",
+  "TCO",
 ];
 
 const ASSETCLASSES = [
-  "Condo", "Hospitality", "Industrial", "Land", "Mixed-Use", 
-  "Multifamily", "Office", "Retail"
+  "Condo",
+  "Hospitality",
+  "Industrial",
+  "Land",
+  "Mixed-Use",
+  "Multifamily",
+  "Office",
+  "Retail",
 ];
 
 const RATETYPES = [
-  'Fixed', 
-  'Floating Rate (1-YR Treasury)', 
-  'Floating Rate (10-YR Treasury)', 
-  'Floating Rate (5-YR Treasury)', 
-  'Floating Rate (LIBOR)', 
-  'Floating Rate (SOFR)', 
-  'Other'
+  "Fixed",
+  "Floating Rate (1-YR Treasury)",
+  "Floating Rate (10-YR Treasury)",
+  "Floating Rate (5-YR Treasury)",
+  "Floating Rate (LIBOR)",
+  "Floating Rate (SOFR)",
+  "Other",
 ];
 
 const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    address: '',
+    name: "",
+    address: "",
     stories: 1,
     square_feet: 1,
     rate_type: RATETYPES[0],
-    minimum_rate: '',
-    maximum_rate: '',
-    loan_amount: '',
+    minimum_rate: "",
+    maximum_rate: "",
+    loan_amount: "",
     deal_type: DEALTYPES[0],
     asset_class: ASSETCLASSES[0],
-    image_url: '',
-    description: '',
-    developers: []
+    image_url: "",
+    description: "",
+    developers: [],
   });
-  const [developers, setDevelopers] = useState([])
-  const { dealId } = useParams()
+  const [developers, setDevelopers] = useState([]);
+  const { dealId } = useParams();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    if(name === 'developers') {
-      const selectedValues = Array.from(e.target.selectedOptions, option => option.value)
+    const { name, value, selectedOptions } = e.target;
+
+    if (name === "developers") {
+      // Get an array of selected developer IDs
+      const selectedDevelopers = Array.from(selectedOptions, (option) => option.value);
+
       setFormData({
         ...formData,
-        developers: selectedValues
+        developers: selectedDevelopers, // Only store the IDs of the developers
       });
     } else {
       setFormData({
@@ -62,39 +71,24 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
       });
     }
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Create a proper format for developers with name field
-    const formattedData = {
-      ...formData,
-      developers: formData.developers.map(developerId => {
-        // Find the developer object from your developers state to get the name
-        const developer = developers.find(dev => dev.id.toString() === developerId.toString());
-        return {
-          id: developerId,
-          name: developer?.name || '' // Include the name field that backend expects
-        };
-      })
-    };
-    
+
     if (dealId) {
-      handleUpdateDeal(dealId, formattedData);
+      handleUpdateDeal(dealId, formData); // Pass formData to update deal
     } else {
-      handleAddDeal(formattedData);
+      handleAddDeal(formData); // Add new deal
     }
   };
-  
 
   useEffect(() => {
-    
     const fetchDevelopers = async () => {
       try {
         const data = await dealService.fetchDevelopers();
         setDevelopers(data.developers);
       } catch (error) {
-        console.error('Error fetching developers:', error);
+        console.error("Error fetching developers:", error);
       }
     };
 
@@ -104,23 +98,23 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           const dealData = await dealService.show(dealId);
           if (dealData && dealData.deal) {
             setFormData({
-              name: dealData.deal.name || '',
-              address: dealData.deal.address || '',
+              name: dealData.deal.name || "",
+              address: dealData.deal.address || "",
               stories: dealData.deal.stories || 1,
               square_feet: dealData.deal.square_feet || 1,
               rate_type: dealData.deal.rate_type || RATETYPES[0],
-              minimum_rate: dealData.deal.minimum_rate || '',
-              maximum_rate: dealData.deal.maximum_rate || '',
-              loan_amount: dealData.deal.loan_amount || '',
+              minimum_rate: dealData.deal.minimum_rate || "",
+              maximum_rate: dealData.deal.maximum_rate || "",
+              loan_amount: dealData.deal.loan_amount || "",
               deal_type: dealData.deal.deal_type || DEALTYPES[0],
               asset_class: dealData.deal.asset_class || ASSETCLASSES[0],
-              image_url: dealData.deal.image_url || '',
-              description: dealData.deal.description || '',
-              developers: dealData.deal.developers || [], // Set developers if present
+              image_url: dealData.deal.image_url || "",
+              description: dealData.deal.description || "",
+              developers: dealData.deal.developers.map(dev => dev.id) || [],
             });
           }
         } catch (error) {
-          console.error('Error fetching deal:', error);
+          console.error("Error fetching deal:", error);
         }
       }
     };
@@ -131,7 +125,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
 
   return (
     <div>
-      <h2>{dealId ? 'Edit Deal' : 'New Deal'}</h2>
+      <h2>{dealId ? "Edit Deal" : "New Deal"}</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Deal Name:</label>
@@ -174,7 +168,6 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
             ))}
           </select>
         </div>
-
 
         <div>
           <label htmlFor="stories">Stories:</label>
