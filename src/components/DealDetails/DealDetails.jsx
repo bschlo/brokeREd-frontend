@@ -111,7 +111,10 @@ const DealDetails = ({ handleDeleteDeal }) => {
               )}
             </div>
           </div>
-          <div className="deal-details-description">{deal.description}</div>
+          <div className="deal-details-executive-summary">
+            <div className="executive-summary-title">Executive Summary</div>
+            <div className="executive-summary-value">{deal.description}</div>
+          </div>
         </div>
       ) : (
         <div>Loading...</div>

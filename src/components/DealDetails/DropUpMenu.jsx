@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IoMdSettings } from "react-icons/io";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
+import './DropUpMenu.css'
 
 const DropUpMenu = ({ handleDeleteDeal, deal }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { dealId } = useParams();
-  console.log("dropup", deal);
+  const navigate = useNavigate() 
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -19,16 +20,16 @@ const DropUpMenu = ({ handleDeleteDeal, deal }) => {
   }, []);
 
   return (
-    <div ref={menuRef}>
-      <button onClick={() => setIsOpen(!isOpen)} aria-label="Settings">
-        <IoMdSettings />
+    <div ref={menuRef} className="parent-container">
+      <button className="settings-button" onClick={() => setIsOpen(!isOpen)} aria-label="Settings">
+        <IoMdSettings size={40}/>
       </button>
       {isOpen && (
-        <div>
-            <button onClick={() => navigate(`/deals/${dealId}/edit`)}>
+        <div className="dropup-menu">
+            <button className='edit-deal' onClick={() => navigate(`/deals/${dealId}/edit`)}>
               Edit
             </button>
-            <button onClick={() => handleDeleteDeal(deal.id)}>
+            <button className='delete-deal' onClick={() => handleDeleteDeal(deal.id)}>
               Delete Deal
             </button>
         </div>

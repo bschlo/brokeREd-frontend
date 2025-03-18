@@ -1,0 +1,49 @@
+.parent-container {
+    position: relative; 
+    display: inline-block;  
+}
+
+.dropup-menu {
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    border: 1px solid black;
+    position: absolute;
+    bottom: 100%;         
+    margin: 0px 0px 0px 30px;
+    background-color: white; 
+    z-index: 10;          
+}
+
+.edit-deal {
+    background-color: white;
+    border: 0;
+    color: blue;
+    border-bottom: 1px solid black;
+    border-style: dotted;
+    height: 50px;
+}
+.delete-deal {
+    background-color: white;
+    border: 0;
+    color: red;
+    height: 50px;
+}
+
+.edit-deal:hover {
+    opacity: .4;
+    cursor: pointer;
+}
+
+.delete-deal:hover {
+    opacity: .4;
+    cursor: pointer;
+}
+.settings-button {
+    background-color: white;
+    border: none;
+}
+
+.settings-button:hover {
+    cursor: pointer;
+}
