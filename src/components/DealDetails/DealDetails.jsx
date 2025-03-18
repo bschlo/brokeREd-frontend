@@ -4,13 +4,15 @@ import { useState, useEffect } from "react";
 import * as dealService from "../../services/dealService";
 import { AuthedUserContext } from "../../App";
 import "../DealDetails/DealDetails.css";
+import DropUpMenu from "./DropUpMenu";
+
+
 
 const DealDetails = ({ handleDeleteDeal }) => {
   const { dealId } = useParams();
   const user = useContext(AuthedUserContext);
   const [deal, setDeal] = useState(null);
   const navigate = useNavigate();
-  console.log(deal)
 
   useEffect(() => {
     const fetchDeal = async () => {
@@ -72,7 +74,7 @@ const DealDetails = ({ handleDeleteDeal }) => {
                 <div className="deal-details-item">
                   <div className="deal-details-title">Developers:</div>
                   {deal.developers.map((developer) => (
-                    <div key={developer.id} className="deal-details-developer">
+                    <div key={developer.id} className="deal-details-value">
                       {developer.name}
                     </div>
                   ))}
@@ -104,12 +106,7 @@ const DealDetails = ({ handleDeleteDeal }) => {
             <div>
               {deal.username === user.username && (
                 <>
-                  <button onClick={() => navigate(`/deals/${dealId}/edit`)}>
-                    Edit
-                  </button>
-                  <button onClick={() => handleDeleteDeal(deal.id)}>
-                    Delete Deal
-                  </button>
+                  <DropUpMenu handleDeleteDeal={handleDeleteDeal} deal={deal}/>
                 </>
               )}
             </div>
