@@ -13,6 +13,7 @@ const DealDetails = ({ handleDeleteDeal }) => {
   const [deal, setDeal] = useState(null);
   const navigate = useNavigate();
 
+  console.log(deal)
   useEffect(() => {
     const fetchDeal = async () => {
       const dealData = await dealService.show(dealId);
@@ -112,7 +113,7 @@ const DealDetails = ({ handleDeleteDeal }) => {
                 </div>
               </div>
               <div className="deal-detail-map">
-                <GoogleMaps />
+                <GoogleMaps deal={deal}/>
               </div>
             </div>
             <div>

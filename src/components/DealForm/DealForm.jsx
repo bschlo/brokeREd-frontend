@@ -63,7 +63,6 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     setFormData({ ...formData, address: e.target.value });
   };
 
-  // Handle place selection from autocomplete
   const handlePlaceSelect = () => {
     const place = autocompleteRef.current.getPlace();
     if (place.geometry) {
@@ -74,6 +73,12 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
         address: place.formatted_address,
         latitude: lat,
         longitude: lng,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        latitude: formData.latitude || coordinates?.lat,
+        longitude: formData.longitude || coordinates?.lng,
       });
     }
   };
@@ -136,6 +141,8 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
             setFormData({
               name: dealData.deal.name || "",
               address: dealData.deal.address || "",
+              latitude: dealData.deal.latitude || "", 
+              longitude: dealData.deal.longitude || "",
               stories: dealData.deal.stories || 1,
               square_feet: dealData.deal.square_feet || 1,
               rate_type: dealData.deal.rate_type || RATETYPES[0],

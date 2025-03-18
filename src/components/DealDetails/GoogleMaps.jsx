@@ -1,8 +1,8 @@
 import React from 'react';
-import { APIProvider, Map } from '@vis.gl/react-google-maps';
-import './GoogleMaps.css'
+import { APIProvider, Map, AdvancedMarker } from '@vis.gl/react-google-maps';
+import './GoogleMaps.css';
 
-const GoogleMaps = () => {
+const GoogleMaps = ({ deal }) => {
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   // Define the container style with width and height
@@ -11,23 +11,24 @@ const GoogleMaps = () => {
     height: '400px',
   };
 
+  const center = deal.latitude && deal.longitude
+    ? { lat: deal.latitude, lng: deal.longitude }
+    : { lat: 40.7128, lng: -74.006 }; 
+
   return (
-    <APIProvider apiKey={GOOGLE_MAPS_API_KEY} onLoad={() => console.log('Maps API has loaded.')}>
+    <APIProvider apiKey={GOOGLE_MAPS_API_KEY}>
       <Map
-        mapContainerStyle={mapContainerStyle}  // Pass the container style here
+        mapContainerStyle={mapContainerStyle} 
         defaultZoom={13}
-        defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
-        onCameraChanged={(ev) =>
-          console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
-        }
-      />
+        center={center}
+        mapId={"brokered"}
+      >
+        {deal.latitude && deal.longitude && (
+          <AdvancedMarker position={center} />
+        )}
+      </Map>
     </APIProvider>
   );
-}
+};
 
 export default GoogleMaps;
-
-
-
-
-
