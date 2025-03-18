@@ -7,15 +7,17 @@
 .deal-details-tophalf {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    margin: 0px 600px 100px 50px;
+    justify-content: center;
+    margin: 0px 0px 100px 50px;
 }
 
 .deal-details-info {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
     margin-bottom: 50px;
+    justify-content: space-between;
 }
 .deal-details-container {
   display: flex;
@@ -63,4 +65,18 @@
 
 .executive-summary-value {
     font-size: 23px;
+}
+.deal-detail-map {
+    width: 25%;
+    height: 500px;
+    margin-right: 200px; 
+    border: 1px solid black;
+
+}
+
+.img-and-information {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    
 }

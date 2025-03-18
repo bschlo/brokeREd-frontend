@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as dealService from "../../services/dealService";
 import { useParams } from "react-router";
+import { Autocomplete, LoadScript } from "@react-google-maps/api";
 
 const DEALTYPES = [
   "Acquisition",
@@ -35,6 +36,7 @@ const RATETYPES = [
 ];
 
 const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
+  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -51,36 +53,70 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     developers: [],
   });
   const [developers, setDevelopers] = useState([]);
+  const [coordinates, setCoordinates] = useState(null); // Store lat and lng
   const { dealId } = useParams();
+
+  const autocompleteRef = useRef(null); // Reference for Autocomplete component
+
+  // Handle address change
+  const handleAddressChange = (e) => {
+    setFormData({ ...formData, address: e.target.value });
+  };
+
+  // Handle place selection from autocomplete
+  const handlePlaceSelect = () => {
+    const place = autocompleteRef.current.getPlace();
+    if (place.geometry) {
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      setFormData({
+        ...formData,
+        address: place.formatted_address,
+        latitude: lat,
+        longitude: lng,
+      });
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, selectedOptions } = e.target;
 
     if (name === "developers") {
-      // Get an array of selected developer IDs
       const selectedDevelopers = Array.from(selectedOptions, (option) => option.value);
-
-      setFormData({
-        ...formData,
-        developers: selectedDevelopers, // Only store the IDs of the developers
-      });
+      setFormData({ ...formData, developers: selectedDevelopers });
     } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData({ ...formData, [name]: value });
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (dealId) {
-      handleUpdateDeal(dealId, formData); // Pass formData to update deal
+      handleUpdateDeal(dealId, formData);
     } else {
-      handleAddDeal(formData); // Add new deal
+      handleAddDeal(formData);
     }
   };
+
+  // Function to geocode the address
+  const geocodeAddress = (address) => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: address }, (results, status) => {
+      if (status === 'OK') {
+        const lat = results[0].geometry.location.lat();
+        const lng = results[0].geometry.location.lng();
+        setCoordinates({ lat, lng });
+      } else {
+        console.error("Geocode was not successful: " + status);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (formData.address) {
+      geocodeAddress(formData.address); // Call geocoding when address changes
+    }
+  }, [formData.address]);
 
   useEffect(() => {
     const fetchDevelopers = async () => {
@@ -123,7 +159,10 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     if (dealId) fetchDeal();
   }, [dealId]);
 
+  const libraries = ['places']
+
   return (
+    <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
     <div>
       <h2>{dealId ? "Edit Deal" : "New Deal"}</h2>
       <form onSubmit={handleSubmit}>
@@ -139,15 +178,44 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           />
         </div>
 
-        <div>
+         {/* Google Maps Address Autocomplete */}
+         <div>
           <label htmlFor="address">Deal Address:</label>
+          <Autocomplete
+            onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)}
+            onPlaceChanged={handlePlaceSelect}
+          >
+            <input
+              type="text"
+              id="address"
+              name="address"
+              value={formData.address}
+              onChange={handleAddressChange}
+              placeholder="Enter address"
+              required
+            />
+          </Autocomplete>
+        </div>
+
+        <div>
+          <label htmlFor="latitude">Latitude:</label>
           <input
             type="text"
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            required
+            id="latitude"
+            name="latitude"
+            value={formData.latitude}
+            readOnly
+          />
+        </div>
+
+        <div>
+          <label htmlFor="longitude">Longitude:</label>
+          <input
+            type="text"
+            id="longitude"
+            name="longitude"
+            value={formData.longitude}
+            readOnly
           />
         </div>
 
@@ -306,6 +374,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
         <button type="submit">Submit Deal</button>
       </form>
     </div>
+    </LoadScript>
   );
 };
 
