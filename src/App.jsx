@@ -12,7 +12,7 @@ import DealDetails from './components/DealDetails/DealDetails';
 import DealForm from './components/DealForm/DealForm';
 import * as authService from '../src/services/authService'
 import * as dealService from '../src/services/dealService'
-
+import './App.css'
 
 export const AuthedUserContext = createContext(null); 
 

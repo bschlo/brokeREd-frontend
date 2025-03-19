@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import * as dealService from "../../services/dealService";
 import { AuthedUserContext } from "../../App";
 import "../DealDetails/DealDetails.css";
-import DropUpMenu from "./DropUpMenu";
-import GoogleMaps from "./GoogleMaps.jsx";
+import DropUpMenu from "./DropUpMenu/DropUpMenu.jsx";
+import GoogleMaps from "./GoogleMaps/GoogleMaps.jsx";
 
 const DealDetails = ({ handleDeleteDeal }) => {
   const { dealId } = useParams();
@@ -74,6 +74,11 @@ const DealDetails = ({ handleDeleteDeal }) => {
                   <div className="deal-details-item">
                     <div className="deal-details-title">Asset Class</div>
                     <div className="deal-details-value">{deal.asset_class}</div>
+                  </div>
+
+                  <div className="deal-details-item">
+                    <div className="deal-details-title">Units</div>
+                    <div className="deal-details-value">{deal.units}</div>
                   </div>
 
                   <div className="deal-details-item">

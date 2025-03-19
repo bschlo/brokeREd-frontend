@@ -69,6 +69,7 @@
 
 .executive-summary-value {
     font-size: 23px;
+    white-space: pre-line;
 }
 .deal-detail-map {
     width: 25%;

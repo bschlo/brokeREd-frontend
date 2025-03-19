@@ -1,0 +1,132 @@
+.dealform-main {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    display: grid;
+    grid-gap: 15px;
+}
+
+form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input, select, textarea {
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+textarea {
+    resize: none;
+    min-height: 100px;
+}
+
+.submit-deal {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.submit-deal:hover {
+    background-color: #0056b3;
+}
+
+.dealform-main .autocomplete-container {
+    position: relative;
+}
+
+.autocomplete-container input {
+    padding-right: 40px;
+}
+
+@media (max-width: 600px) {
+    .dealform-main {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+.checkbox-scroll-container {
+    max-height: 200px; 
+    overflow-y: auto;  
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    width: 100%;
+    text-align: center;
+    
+}
+
+.checkbox-item input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: #007bff; 
+    width: 18px;
+}
+
+.checkbox-item label {
+    cursor: pointer;
+}
+
+.checkbox-item input {
+    width: 15px;
+}
+
+.developer-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    flex-wrap: nowrap;
+    text-align: center;
+}
+
+.hidden-field {
+    display: none;
+}
