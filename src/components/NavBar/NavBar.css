@@ -11,14 +11,18 @@ body, html {
     color: white;
     width: 100vw;
     height: 50px;
-    margin: 0px 0px 110px 0px;
+    margin: 0px 0px 0px 0px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;;
+
 }
 .nav-bar-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
-    margin: 0px 50px 0px 50px;  
+    margin: 0px 80px 0px 80px;  
 }
 .nav-bar a {
     text-decoration: none;

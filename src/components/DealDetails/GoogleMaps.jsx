@@ -5,7 +5,6 @@ import './GoogleMaps.css';
 const GoogleMaps = ({ deal }) => {
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-  // Define the container style with width and height
   const mapContainerStyle = {
     width: '100%',
     height: '400px',

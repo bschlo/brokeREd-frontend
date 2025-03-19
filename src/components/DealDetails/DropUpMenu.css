@@ -3,31 +3,49 @@
     display: inline-block;  
 }
 
-.dropup-menu {
-    display: flex;
-    flex-direction: column;
-    width: 100px;
-    border: 1px solid black;
+.parent-container {
+    position: relative; 
+  }
+  
+  .settings-button {
+    cursor: pointer; 
+    z-index: 11; 
+    position: relative; 
+  }
+  
+  .dropup-menu {
     position: absolute;
-    bottom: 100%;         
-    margin: 0px 0px 0px 30px;
-    background-color: white; 
-    z-index: 10;          
-}
+    left: -210px;
+    bottom: 0;  
+    width: 200px; 
+    background-color: white;
+    z-index: 10;
+    opacity: 0; 
+    transform: translateX(50%);
+    transition: transform .7s ease-out, opacity .7s ease-out; 
+    display: flex;
+  }
+  
+  .dropup-menu.show {
+    transform: translateX(0); 
+    opacity: 1; 
+  }
 
 .edit-deal {
     background-color: white;
-    border: 0;
-    color: blue;
-    border-bottom: 1px solid black;
-    border-style: dotted;
+    color: blue; 
     height: 50px;
+    width: 100px;
+    border: 0;
+    font-size: 20px;
 }
 .delete-deal {
     background-color: white;
-    border: 0;
     color: red;
     height: 50px;
+    width: 200px;
+    border: 0;
+    font-size: 20px;
 }
 
 .edit-deal:hover {

@@ -13,7 +13,7 @@ const DealDetails = ({ handleDeleteDeal }) => {
   const [deal, setDeal] = useState(null);
   const navigate = useNavigate();
 
-  console.log(deal)
+  console.log(deal);
   useEffect(() => {
     const fetchDeal = async () => {
       const dealData = await dealService.show(dealId);
@@ -23,9 +23,30 @@ const DealDetails = ({ handleDeleteDeal }) => {
   }, [dealId]);
 
   return (
-    <main>
+    <>
       {deal ? (
         <div key={deal.id} className="deal-details-main">
+          <div className="deal-details-heading">
+            <div className="dealname-container">
+            <div className="deal-details-dealname">{deal.name}
+            </div>
+            <div>
+              {deal.username === user.username && (
+                <>
+                  <DropUpMenu handleDeleteDeal={handleDeleteDeal} deal={deal} />
+                </>
+              )}
+            </div>
+            </div>
+            <div className="deal-details-developer">
+              {deal.developers.map((developer, index) => (
+                <span key={developer.id}>
+                  {developer.name}
+                  {index < deal.developers.length - 1 && ", "}
+                </span>
+              ))}
+            </div>
+          </div>
           <div className="deal-details-tophalf">
             <div className="deal-details-info">
               <div className="img-and-information">
@@ -37,75 +58,62 @@ const DealDetails = ({ handleDeleteDeal }) => {
                   />
                 </div>
                 <div className="deal-details-container">
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Deal Name:</div>
-                    <div className="deal-details-value">{deal.name}</div>
-                  </div>
 
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Address:</div>
-                    <div className="deal-details-value">{deal.address}</div>
-                  </div>
-
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Stories:</div>
-                    <div className="deal-details-value">{deal.stories}</div>
-                  </div>
-
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Square Feet:</div>
-                    <div className="deal-details-value">
-                      {deal.square_feet.toLocaleString()} SF
-                    </div>
-                  </div>
-
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Rate Type:</div>
-                    <div className="deal-details-value">{deal.rate_type}</div>
-                  </div>
-
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Minimum Rate:</div>
-                    <div className="deal-details-value">
-                      {deal.minimum_rate}%
-                    </div>
-                  </div>
-
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Maximum Rate:</div>
-                    <div className="deal-details-value">
-                      {deal.maximum_rate}%
-                    </div>
-                  </div>
-
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Developers:</div>
-                    {deal.developers.map((developer) => (
-                      <div key={developer.id} className="deal-details-value">
-                        {developer.name}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="deal-details-item">
-                    <div className="deal-details-title">Loan Amount:</div>
+                <div className="deal-details-item">
+                    <div className="deal-details-title">Loan Amount</div>
                     <div className="deal-details-value">
                       ${deal.loan_amount.toLocaleString()}
                     </div>
                   </div>
 
                   <div className="deal-details-item">
-                    <div className="deal-details-title">Deal Type:</div>
-                    <div className="deal-details-value">{deal.deal_type}</div>
+                    <div className="deal-details-title">Address</div>
+                    <div className="deal-details-value">{deal.address}</div>
                   </div>
 
                   <div className="deal-details-item">
-                    <div className="deal-details-title">Asset Class:</div>
+                    <div className="deal-details-title">Asset Class</div>
                     <div className="deal-details-value">{deal.asset_class}</div>
                   </div>
 
                   <div className="deal-details-item">
-                    <div className="deal-details-title">Posted On:</div>
+                    <div className="deal-details-title">Stories</div>
+                    <div className="deal-details-value">{deal.stories}</div>
+                  </div>
+
+                  <div className="deal-details-item">
+                    <div className="deal-details-title">Square Feet</div>
+                    <div className="deal-details-value">
+                      {deal.square_feet.toLocaleString()} SF
+                    </div>
+                  </div>
+
+                  <div className="deal-details-item">
+                    <div className="deal-details-title">Rate Type</div>
+                    <div className="deal-details-value">{deal.rate_type}</div>
+                  </div>
+
+                  <div className="deal-details-item">
+                    <div className="deal-details-title">Minimum Rate</div>
+                    <div className="deal-details-value">
+                      {deal.minimum_rate}%
+                    </div>
+                  </div>
+
+                  <div className="deal-details-item">
+                    <div className="deal-details-title">Maximum Rate</div>
+                    <div className="deal-details-value">
+                      {deal.maximum_rate}%
+                    </div>
+                  </div>
+
+                  <div className="deal-details-item">
+                    <div className="deal-details-title">Deal Type</div>
+                    <div className="deal-details-value">{deal.deal_type}</div>
+                  </div>
+
+                  <div className="deal-details-item">
+                    <div className="deal-details-title">Posted On</div>
                     <div className="deal-details-value">
                       {new Date(deal.date).toLocaleDateString()}
                     </div>
@@ -113,16 +121,10 @@ const DealDetails = ({ handleDeleteDeal }) => {
                 </div>
               </div>
               <div className="deal-detail-map">
-                <GoogleMaps deal={deal}/>
+                <GoogleMaps deal={deal} />
               </div>
             </div>
-            <div>
-              {deal.username === user.username && (
-                <>
-                  <DropUpMenu handleDeleteDeal={handleDeleteDeal} deal={deal} />
-                </>
-              )}
-            </div>
+            
           </div>
           <div className="deal-details-executive-summary">
             <div className="executive-summary-title">Executive Summary</div>
@@ -132,7 +134,7 @@ const DealDetails = ({ handleDeleteDeal }) => {
       ) : (
         <div>Loading...</div>
       )}
-    </main>
+    </>
   );
 };
 

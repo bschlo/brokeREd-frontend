@@ -1,5 +1,5 @@
 .deal-details-main {
-  margin: 50px 60px 200px 60px;
+  margin: 60px 60px 200px 60px;
   display: flex;
   flex-direction: column;
 }
@@ -8,14 +8,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0px 0px 100px 50px;
+    margin: 0px 0px 50px 40px;
 }
 
 .deal-details-info {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
     margin-bottom: 50px;
     justify-content: space-between;
 }
@@ -30,18 +30,22 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: baseline;
-    gap: 5px;
 }
 
 .deal-details-title {
     font: 25px solid black;
-    font-weight: bold;
+    width: 200px;
 }
 
 .deal-details-value {
-    font: 20px black;
+    font-size: 20px;  
+    color: black;    
+    margin: 0px;
+    text-align: left;
+    display: block;        
+    font-weight: bold;
+    max-width: 100%;
 }
-
 
 .deal-details-img {
   width: 450px;
@@ -69,7 +73,6 @@
 .deal-detail-map {
     width: 25%;
     height: 500px;
-    margin-right: 200px; 
     border: 1px solid black;
 
 }
@@ -77,6 +80,29 @@
 .img-and-information {
     display: flex;
     flex-direction: row;
-    gap: 50px;
-    
+    gap: 175px;
+}
+
+.deal-details-heading {
+    margin: 0px 0px 50px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.deal-details-dealname {
+    font-size: 65px;
+    padding-bottom: 10px;
+}
+
+.deal-details-developer {
+    font-size: 35px;
+    margin-left: 10px;
+}
+
+.dealname-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    align-items: center;
 }

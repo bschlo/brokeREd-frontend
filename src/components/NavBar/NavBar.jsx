@@ -6,7 +6,7 @@ import "./NavBar.css";
 const NavBar = ({ handleSignout }) => {
   const user = useContext(AuthedUserContext);
   return (
-    <main>
+    <>
       {user ? (
         <nav className="nav-bar">
           <div className="nav-bar-container">
@@ -36,7 +36,7 @@ const NavBar = ({ handleSignout }) => {
           </div>
         </nav>
       )}
-    </main>
+    </>
   );
 };
 
