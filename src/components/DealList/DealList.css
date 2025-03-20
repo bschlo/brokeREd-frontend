@@ -11,14 +11,23 @@
 }
 
 .deal-item {
-    width: 100%; /* Grid will handle sizing */
-    max-width: 350px; /* Limit max width to maintain structure */
+    width: 100%; 
+    max-width: 350px;
+    height: 500px;
+    border: 1px solid black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+
 }
 
 .deal-image-container {
     position: relative;
     width: 100%;
-    max-width: 350px; /* Image width */
+    max-width: 375px;
 }
 
 .deal-list-img {
@@ -79,6 +88,8 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
     gap: 40px; 
     margin: 0 50px; 
+    align-items: center;
+ 
 }
 
 
@@ -100,4 +111,27 @@
     .deal-list-elements {
         grid-template-columns: 1fr; 
     }
+}
+.developer-image-container {
+    width: 100px;
+    z-index: 1000;
+    position: relative;
+
+}
+.developer-image {
+    width: 125px;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.developerinfo-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center; /* Centers images in a row */
+    gap: 50px;  /* Centers images neatly */
+    margin: 0px;
+    box-sizing: border-box; 
+    width: 100%; 
+    object-fit: contain;
 }

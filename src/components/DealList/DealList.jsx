@@ -3,13 +3,18 @@ import { Link } from "react-router";
 import "./DealList.css";
 
 const DealList = ({ deals }) => {
-  
+  console.log(deals)
   return (
     <main className="deal-list">
       <div className="deal-list-container">
         <div className="deal-list-elements">
           {deals.map((deal) => (
             <div key={deal.id} className="deal-item">
+              <div className="developerinfo-container">
+              {deal.developers.map((developer) => (
+                    <div key={developer.id} className="developer-image-container"><img src={developer.image_url} className="developer-image"/></div>
+                  ))}
+                </div>
               <div className="deal-image-container">
                 <Link to={`/deals/${deal.id}`}>
                   <img

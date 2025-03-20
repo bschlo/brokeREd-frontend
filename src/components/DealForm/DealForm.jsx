@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as dealService from "../../services/dealService";
 import { useParams } from "react-router";
-import { Autocomplete, LoadScript } from "@react-google-maps/api";
+import { Autocomplete } from "@react-google-maps/api";
 import "./DealForm.css";
 
 const DEALTYPES = [
@@ -57,6 +57,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
   const [developers, setDevelopers] = useState([]);
   const [coordinates, setCoordinates] = useState(null); // Store lat and lng
   const { dealId } = useParams();
+  
 
   const autocompleteRef = useRef(null); // Reference for Autocomplete component
 
@@ -66,6 +67,8 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
   };
 
   const handlePlaceSelect = () => {
+    if(!autocompleteRef.current) return
+
     const place = autocompleteRef.current.getPlace();
     if (place.geometry) {
       const lat = place.geometry.location.lat();
@@ -128,8 +131,8 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
   };
 
   useEffect(() => {
-    if (formData.address) {
-      geocodeAddress(formData.address); // Call geocoding when address changes
+    if (formData.address && google && google.maps) {
+      geocodeAddress(formData.address); 
     }
   }, [formData.address]);
 
@@ -169,7 +172,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           }
         } catch (error) {
           console.error("Error fetching deal:", error);
-        }
+        } 
       }
     };
 
@@ -177,15 +180,21 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     if (dealId) fetchDeal();
   }, [dealId]);
 
-  const libraries = ["places"];
+  
+
+  if (!developers.length && dealId) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
+    <>
+    {developers.length? (
+    
       <div className="dealform-main">
-        <h2>{dealId ? "Edit Deal" : "New Deal"}</h2>
-        <form onSubmit={handleSubmit}>
+        <div className="dealform-editdelete">{dealId ? "Edit Deal" : "Create a New Deal"}</div>
+        <form className="dealform" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name">Deal Name:</label>
+            <label htmlFor="name" className="dealform-label">Deal Name:</label>
             <input
               type="text"
               id="name"
@@ -193,12 +202,12 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               value={formData.name}
               onChange={handleChange}
               required
+              className="dealform-input"
             />
           </div>
 
-          {/* Google Maps Address Autocomplete */}
           <div>
-            <label htmlFor="address">Deal Address:</label>
+            <label htmlFor="address" className="dealform-label">Deal Address:</label>
             <Autocomplete
               onLoad={(autocomplete) =>
                 (autocompleteRef.current = autocomplete)
@@ -213,6 +222,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
                 onChange={handleAddressChange}
                 placeholder="Enter address"
                 required
+                className="dealform-input"
               />
             </Autocomplete>
           </div>
@@ -240,7 +250,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           </div>
 
           <div className="developers-container">
-            <label>Developers:</label>
+            <label className="dealform-label">Developers:</label>
             <div className="checkbox-scroll-container">
               {developers.map((developer) => (
                 <div key={developer.id} className="checkbox-item">
@@ -275,7 +285,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           </div>
 
           <div>
-            <label htmlFor="stories">Stories:</label>
+            <label className="dealform-label" htmlFor="stories">Stories:</label>
             <input
               type="number"
               id="stories"
@@ -284,11 +294,12 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               onChange={handleChange}
               min="1"
               required
+              className="dealform-input"
             />
           </div>
 
           <div>
-            <label htmlFor="units">Units:</label>
+            <label className="dealform-label" htmlFor="units">Units:</label>
             <input
               type="number"
               id="units"
@@ -297,12 +308,13 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               onChange={handleChange}
               min="1"
               required
+              className="dealform-input"
             />
           </div>
           
 
           <div>
-            <label htmlFor="square_feet">Square Feet:</label>
+            <label className="dealform-label" htmlFor="square_feet">Square Feet:</label>
             <input
               type="number"
               id="square_feet"
@@ -311,17 +323,19 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               onChange={handleChange}
               min="1"
               required
+              className="dealform-input"
             />
           </div>
 
           <div>
-            <label htmlFor="rate_type">Rate Type:</label>
+            <label htmlFor="rate_type" className="dealform-label">Rate Type:</label>
             <select
               id="rate_type"
               name="rate_type"
               value={formData.rate_type}
               onChange={handleChange}
               required
+              className="dealform-select"
             >
               {RATETYPES.map((rate) => (
                 <option key={rate} value={rate}>
@@ -332,7 +346,7 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           </div>
 
           <div>
-            <label htmlFor="minimum_rate">Minimum Rate:</label>
+            <label htmlFor="minimum_rate" className="dealform-label">Minimum Rate:</label>
             <input
               type="number"
               id="minimum_rate"
@@ -340,11 +354,12 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               value={formData.minimum_rate}
               onChange={handleChange}
               step="0.01"
+              className="dealform-input"
             />
           </div>
 
           <div>
-            <label htmlFor="maximum_rate">Maximum Rate:</label>
+            <label className="dealform-label" htmlFor="maximum_rate">Maximum Rate:</label>
             <input
               type="number"
               id="maximum_rate"
@@ -352,11 +367,12 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               value={formData.maximum_rate}
               onChange={handleChange}
               step="0.01"
+              className="dealform-input"
             />
           </div>
 
           <div>
-            <label htmlFor="loan_amount">Loan Amount:</label>
+            <label className="dealform-label" htmlFor="loan_amount">Loan Amount:</label>
             <input
               type="number"
               id="loan_amount"
@@ -364,17 +380,19 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
               value={formData.loan_amount}
               onChange={handleChange}
               required
+              className="dealform-input"
             />
           </div>
 
           <div>
-            <label htmlFor="deal_type">Deal Type:</label>
+            <label className="dealform-label" htmlFor="deal_type">Deal Type:</label>
             <select
               id="deal_type"
               name="deal_type"
               value={formData.deal_type}
               onChange={handleChange}
               required
+              className="dealform-select"
             >
               {DEALTYPES.map((type) => (
                 <option key={type} value={type}>
@@ -385,13 +403,14 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           </div>
 
           <div>
-            <label htmlFor="asset_class">Asset Class:</label>
+            <label className="dealform-label" htmlFor="asset_class">Asset Class:</label>
             <select
               id="asset_class"
               name="asset_class"
               value={formData.asset_class}
               onChange={handleChange}
               required
+              className="dealform-select"
             >
               {ASSETCLASSES.map((asset) => (
                 <option key={asset} value={asset}>
@@ -402,30 +421,35 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
           </div>
 
           <div>
-            <label htmlFor="image_url">Image URL:</label>
+            <label htmlFor="image_url" className="dealform-label">Image URL:</label>
             <input
               type="url"
               id="image_url"
               name="image_url"
               value={formData.image_url}
               onChange={handleChange}
+              className="dealform-input"
             />
           </div>
 
           <div>
-            <label htmlFor="description">Description:</label>
+            <label htmlFor="description" className="dealform-label">Executive Summary:</label>
             <textarea
               id="description"
               name="description"
               value={formData.description}
               onChange={handleChange}
+              className="dealform-textarea"
             />
           </div>
 
           <button className='submit-deal'type="submit">Submit Deal</button>
         </form>
       </div>
-    </LoadScript>
+    ) : (
+      <div>Loading...</div>
+    )}
+    </>
   );
 };
 

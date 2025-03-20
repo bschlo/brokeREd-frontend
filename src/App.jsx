@@ -13,14 +13,17 @@ import DealForm from './components/DealForm/DealForm';
 import * as authService from '../src/services/authService'
 import * as dealService from '../src/services/dealService'
 import './App.css'
+import { LoadScript } from '@react-google-maps/api';
 
 export const AuthedUserContext = createContext(null); 
+const libraries = ["places"];
 
 const App = () => {
   const [user, setUser] = useState(authService.getUser());
   const [deals, setDeals] = useState([])
 
   const navigate = useNavigate()
+  
 
   useEffect(() => {
     const fetchAllDeals = async () => {
@@ -61,20 +64,22 @@ const App = () => {
       console.error(error)
     }
   }
+
+  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY; 
   
 
   return (
     <AuthedUserContext.Provider value={user}>
+      <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
       <NavBar handleSignout={handleSignout} />
       <Routes>
         {user ? (
           <>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard user={user}/>} />
           <Route path="/deals" element={<DealList deals={deals} />} />
           <Route path="/deals/:dealId" element={<DealDetails handleDeleteDeal={handleDeleteDeal} />} />
           <Route path='/deals/new' element={<DealForm handleAddDeal={handleAddDeal} />}/>
           <Route path='/deals/:dealId/edit' element={<DealForm handleUpdateDeal={handleUpdateDeal}/>}/>
-
         </>
         ) : (
           <>
@@ -84,6 +89,7 @@ const App = () => {
         </>
         )}
       </Routes>
+      </LoadScript>
     </AuthedUserContext.Provider>
   );
 };
