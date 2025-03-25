@@ -1,0 +1,28 @@
+.filter-main {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    gap: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    position: fixed;
+    z-index: 1000;
+    background-color: white;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.filter-label {
+    width: 100px;
+}
+
+.filter-input {
+    width: 90px;
+}
+.filter-select {
+    width: 140px;
+}

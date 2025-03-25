@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Fixed import
 import "./DealList.css";
+import DealFilters from "./DealFilters/DealFilters";
 
-const DealList = ({ deals }) => {
-  console.log(deals);
 
+
+const DealList = ({ deals, handleFilterChange, filters }) => {
   return (
     <main className="deal-list">
+      
+      <DealFilters handleFilterChange={handleFilterChange} filters={filters}/>
       <div className="deal-list-container">
         <div className="deal-list-elements">
           {deals.map((deal) => (

@@ -1,10 +1,10 @@
 const BACKEND_URL = `${import.meta.env.VITE_BACKEND_SERVER_URL}` 
 
-// src/services/hootService.js
 
-const index = async () => {
+const index = async (filters = {}) => {
     try {
-      const res = await fetch(`${BACKEND_URL}/deals/`, {
+      const params = new URLSearchParams(filters).toString()
+      const res = await fetch(`${BACKEND_URL}/deals/?${params}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
       });
       return res.json();
