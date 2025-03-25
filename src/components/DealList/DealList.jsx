@@ -1,53 +1,91 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom"; // Fixed import
 import "./DealList.css";
 
 const DealList = ({ deals }) => {
-  console.log(deals)
+  console.log(deals);
+
   return (
     <main className="deal-list">
       <div className="deal-list-container">
         <div className="deal-list-elements">
           {deals.map((deal) => (
             <div key={deal.id} className="deal-item">
-              <div className="developerinfo-container">
-              {deal.developers.map((developer) => (
-                    <div key={developer.id} className="developer-image-container"><img src={developer.image_url} className="developer-image"/></div>
-                  ))}
-                </div>
               <div className="deal-image-container">
                 <Link to={`/deals/${deal.id}`}>
                   <img
                     className="deal-list-img"
-                    src={deal.image_url}
-                    alt={`${deal.name} image`}
+                    src={deal.image_url || "/default-image.jpg"}
+                    alt={`${deal.name || "Deal"} image`}
                   />
                   <div className="deal-info-box">
                     <div className="deal-summary">
+                      <div className="deal-loan-amount">
+                        ${deal.loan_amount?.toLocaleString() || "N/A"}
+                      </div>
                       <div className="deal-name">{deal.name}</div>
                       <div className="deal-address">{deal.address}</div>
-                      <div className="deal-loan-amount">
-                        ${deal.loan_amount.toLocaleString()}
-                      </div>
                     </div>
+                    
                     <div className="deal-details">
-                      <div>
-                        {deal.deal_type === "Office to Condo Conversion"
-                          ? `${deal.deal_type} Loan`
-                          : `${deal.asset_class} ${deal.deal_type} Loan`}
+                      <div className="list-summary">Deal Summary</div>
+                      <div className="list-titlevalue">
+                        <div className="list-title">Asset Class</div>
+                        <div className="list-value">{deal.asset_class}</div>
                       </div>
-                      <div>{`${deal.user.username} posted on: ${new Date(
-                        deal.date
-                      ).toLocaleDateString()}`}</div>
-                      {deal.developers.map((developer) => (
-                        <div key={developer.id}>{developer.name}</div>
-                      ))}
+
+                      <div className="list-titlevalue">
+                        <div className="list-title">Units</div>
+                        <div className="list-value">{deal.units}</div>
+                      </div>
+
+                      <div className="list-titlevalue">
+                        <div className="list-title">Deal Type</div>
+                        <div className="list-value">{deal.deal_type}</div>
+                      </div>
+
+                      <div className="list-titlevalue">
+                        <div className="list-title">Spread</div>
+                        <div className="list-value">{deal.minimum_rate}% - {deal.maximum_rate}% + {deal.rate_type}</div>
+                      </div>
+
+                      <div className="list-titlevalue">
+                        <div className="list-title">Developer</div>
+                        <div className="list-value">
+                          <div className="developerinfo-container">
+                            {deal.developers?.map((developer) => (
+                              <div
+                                key={developer.id}
+                                className="developer-image-container"
+                              >
+                                <img
+                                  src={
+                                    developer.image_url ||
+                                    "/default-developer.jpg"
+                                  }
+                                  className="developer-image"
+                                  alt={developer.name || "Developer"}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="list-user">
+                        {`${deal.user?.username || "Unknown"} posted on ${
+                          deal.date
+                            ? new Date(deal.date).toLocaleDateString()
+                            : "N/A"
+                        }`}
+                      </div>
                     </div>
                   </div>
                 </Link>
               </div>
             </div>
           ))}
+          
         </div>
       </div>
     </main>
