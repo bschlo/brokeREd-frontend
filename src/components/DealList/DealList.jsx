@@ -6,6 +6,7 @@ import DealFilters from "./DealFilters/DealFilters";
 
 
 const DealList = ({ deals, handleFilterChange, filters }) => {
+  
   return (
     <main className="deal-list">
       

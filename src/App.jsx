@@ -22,6 +22,7 @@ const libraries = ["places"];
 const App = () => {
   const [user, setUser] = useState(authService.getUser());
   const [deals, setDeals] = useState([])
+  
   const [filters, setFilters] = useState({
     stories: "",
     squareFeetMin: "",

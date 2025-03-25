@@ -30,6 +30,8 @@ const DealFilters = ({ filters, handleFilterChange }) => {
             />
           </div>
 
+      
+
           <div className="filter-group">
             <label className="filter-label" htmlFor="squareFeetMin">Square Feet</label>
             <input
