@@ -5,8 +5,8 @@
     gap: 10px;
     border: 1px solid black;
     padding: 10px 5px 20px 5px;
-    position: fixed;
-    z-index: 1000;
+    position: absolute;
+    z-index: 100;
     background-color: white;
     border-radius: 40px;
     overflow-y: auto;
@@ -32,3 +32,22 @@
 .filter-select {
     width: 140px;
 }
+
+.clear-filters-container {
+    display: flex;
+    justify-content: center;
+}
+
+.clear-filters {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px; 
+    width: 300px;
+}
+.clear-filters:hover {
+    background-color: darkred;
+  }

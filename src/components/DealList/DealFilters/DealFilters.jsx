@@ -1,16 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./DealFilters.css";
 import { MdFilterListAlt } from "react-icons/md";
 
-const DealFilters = ({ filters, handleFilterChange }) => {
+
+const DealFilters = ({ filters, handleFilterChange, setDeals}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const filterRef = useRef(null);
 
   const toggleFilters = () => {
     setIsOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const handleClearFilters = async () => {
+    handleFilterChange({
+      target: {
+        name: "clear",
+        value: "clear",
+      },
+    });
+    setDeals([])
+  
+    try {
+      const sortedDeals = await dealService.index({}, 'date');  
+      setDeals(sortedDeals);
+    } catch (error) {
+      console.error("Error resetting sort:", error);
+    }
+  };
+  console.log("Filters before resetting:", filters);
   return (
-    <div className="filter-container">
+    <div className="filter-container" ref={filterRef}>
       <div className="filter-header" onClick={toggleFilters}>
         <MdFilterListAlt size={40} />
       </div>
@@ -18,22 +55,59 @@ const DealFilters = ({ filters, handleFilterChange }) => {
       {isOpen && (
         <div className="filter-main">
           <div className="filter-group">
-            <label className="filter-label" htmlFor="stories">Stories</label>
+            <label className="filter-label" htmlFor="storiesMin">
+              Units
+            </label>
             <input
-              id="stories"
+              id="unitsMin"
               type="number"
-              name="stories"
-              placeholder="Stories"
-              value={filters.stories}
+              name="unitsMin"
+              placeholder="Min"
+              value={filters.unitsMin}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />{" "}
+            -
+            <input
+              id="unitsMax"
+              type="number"
+              name="unitsMax"
+              placeholder="Max"
+              value={filters.unitsMax}
               onChange={handleFilterChange}
               className="filter-input"
             />
           </div>
 
-      
+          <div className="filter-group">
+            <label className="filter-label" htmlFor="storiesMin">
+              Stories
+            </label>
+            <input
+              id="storiesMin"
+              type="number"
+              name="storiesMin"
+              placeholder="Min"
+              value={filters.storiesMin}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />{" "}
+            -
+            <input
+              id="storiesMax"
+              type="number"
+              name="storiesMax"
+              placeholder="Max"
+              value={filters.storiesMax}
+              onChange={handleFilterChange}
+              className="filter-input"
+            />
+          </div>
 
           <div className="filter-group">
-            <label className="filter-label" htmlFor="squareFeetMin">Square Feet</label>
+            <label className="filter-label" htmlFor="squareFeetMin">
+              Square Feet
+            </label>
             <input
               id="squareFeetMin"
               type="number"
@@ -42,8 +116,9 @@ const DealFilters = ({ filters, handleFilterChange }) => {
               value={filters.squareFeetMin}
               onChange={handleFilterChange}
               className="filter-input"
-            /> -
-             <input
+            />{" "}
+            -
+            <input
               id="squareFeetMax"
               type="number"
               name="squareFeetMax"
@@ -55,7 +130,9 @@ const DealFilters = ({ filters, handleFilterChange }) => {
           </div>
 
           <div className="filter-group">
-            <label className="filter-label" htmlFor="rateMin">Spread (Rate)</label>
+            <label className="filter-label" htmlFor="rateMin">
+              Spread (Rate)
+            </label>
             <input
               id="minimumRate"
               type="number"
@@ -64,8 +141,9 @@ const DealFilters = ({ filters, handleFilterChange }) => {
               value={filters.minimumRate}
               onChange={handleFilterChange}
               className="filter-input"
-            /> -
-             <input
+            />{" "}
+            -
+            <input
               id="maximumRate"
               type="number"
               name="maximumRate"
@@ -76,9 +154,10 @@ const DealFilters = ({ filters, handleFilterChange }) => {
             />
           </div>
 
-
           <div className="filter-group">
-            <label className="filter-label" htmlFor="loanAmountMin">Loan Amount</label>
+            <label className="filter-label" htmlFor="loanAmountMin">
+              Loan Amount
+            </label>
             <input
               id="loanAmountMin"
               type="number"
@@ -87,7 +166,8 @@ const DealFilters = ({ filters, handleFilterChange }) => {
               value={filters.loanAmountMin}
               onChange={handleFilterChange}
               className="filter-input"
-            /> -
+            />{" "}
+            -
             <input
               id="loanAmountMax"
               type="number"
@@ -100,7 +180,9 @@ const DealFilters = ({ filters, handleFilterChange }) => {
           </div>
 
           <div className="filter-group">
-            <label className="filter-label" htmlFor="dealType">Deal Type</label>
+            <label className="filter-label" htmlFor="dealType">
+              Deal Type
+            </label>
             <select
               id="dealType"
               name="dealType"
@@ -125,7 +207,9 @@ const DealFilters = ({ filters, handleFilterChange }) => {
           </div>
 
           <div className="filter-group">
-            <label className="filter-label" htmlFor="assetClass">Asset Class</label>
+            <label className="filter-label" htmlFor="assetClass">
+              Asset Class
+            </label>
             <select
               id="assetClass"
               name="assetClass"
@@ -142,6 +226,11 @@ const DealFilters = ({ filters, handleFilterChange }) => {
               <option value="Multifamily">Multifamily</option>
               <option value="Office">Office</option>
             </select>
+          </div>
+          <div className="clear-filters-container">
+            <button className="clear-filters" onClick={handleClearFilters}>
+              Clear Applied Filters
+            </button>
           </div>
         </div>
       )}

@@ -15,6 +15,7 @@ import * as dealService from '../src/services/dealService'
 import './App.css'
 import { LoadScript } from '@react-google-maps/api';
 import DealFilters from './components/DealList/DealFilters/DealFilters';
+import Footer from './components/Footer/Footer';
 
 export const AuthedUserContext = createContext(null); 
 const libraries = ["places"];
@@ -24,7 +25,8 @@ const App = () => {
   const [deals, setDeals] = useState([])
   
   const [filters, setFilters] = useState({
-    stories: "",
+    storiesMin: "",
+    storiesMax: "",
     squareFeetMin: "",
     squareFeetMax: "",
     rateType: "",
@@ -35,7 +37,9 @@ const App = () => {
     dealType: "",
     assetClass: "",
     developers: "",
-    units: "",
+    unitsMin: "",
+    unitsMax: "",
+    developers: "",
   });
 
   const navigate = useNavigate()
@@ -44,7 +48,7 @@ const App = () => {
   useEffect(() => {
     const fetchAllDeals = async () => {
       if (user) {
-        const dealData = await dealService.index(filters); // Fetch deals with filters
+        const dealData = await dealService.index(filters, 'date'); // Fetch deals with filters
         setDeals(dealData);
       }
     };
@@ -54,10 +58,29 @@ const App = () => {
   // Handle filter changes
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
+
+    if (name === "clear") {
+      setFilters({
+        unitsMin: "",
+        unitsMax: "",
+        storiesMin: "",
+        storiesMax: "",
+        squareFeetMin: "",
+        squareFeetMax: "",
+        minimumRate: "",
+        maximumRate: "",
+        loanAmountMin: "",
+        loanAmountMax: "",
+        dealType: "",
+        assetClass: "",
+        developers: "",
+      });
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSignout = () => {
@@ -97,24 +120,31 @@ const App = () => {
   return (
     <AuthedUserContext.Provider value={user}>
       <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
-      <NavBar handleSignout={handleSignout} />
-      <Routes>
-        {user ? (
-          <>
-          <Route path="/" element={<Dashboard user={user}/>} />
-          <Route path="/deals" element={<DealList deals={deals} filters={filters} handleFilterChange={handleFilterChange} />} />
-          <Route path="/deals/:dealId" element={<DealDetails handleDeleteDeal={handleDeleteDeal} />} />
-          <Route path='/deals/new' element={<DealForm handleAddDeal={handleAddDeal} />}/>
-          <Route path='/deals/:dealId/edit' element={<DealForm handleUpdateDeal={handleUpdateDeal}/>}/>
-        </>
-        ) : (
-          <>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signup" element={<SignupForm setUser={setUser} />} />
-          <Route path="/signin" element={<SigninForm setUser={setUser} />} />
-        </>
-        )}
-      </Routes>
+        <div className="page-container">
+          <NavBar handleSignout={handleSignout} />
+  
+          <div className="main-content">
+            <Routes>
+              {user ? (
+                <>
+                  <Route path="/" element={<Dashboard user={user} />} />
+                  <Route path="/deals" element={<DealList setDeals={setDeals} deals={deals} filters={filters} handleFilterChange={handleFilterChange} />} />
+                  <Route path="/deals/:dealId" element={<DealDetails handleDeleteDeal={handleDeleteDeal} />} />
+                  <Route path='/deals/new' element={<DealForm handleAddDeal={handleAddDeal} />} />
+                  <Route path='/deals/:dealId/edit' element={<DealForm handleUpdateDeal={handleUpdateDeal} />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<Landing />} />
+                  <Route path="/signup" element={<SignupForm setUser={setUser} />} />
+                  <Route path="/signin" element={<SigninForm setUser={setUser} />} />
+                </>
+              )}
+            </Routes>
+          </div>
+  
+          <Footer />
+        </div>
       </LoadScript>
     </AuthedUserContext.Provider>
   );

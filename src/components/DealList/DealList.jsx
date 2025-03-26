@@ -2,15 +2,26 @@ import React from "react";
 import { Link } from "react-router-dom"; // Fixed import
 import "./DealList.css";
 import DealFilters from "./DealFilters/DealFilters";
+import SortFilter from "./SortFilter/SortFilter";
 
-
-
-const DealList = ({ deals, handleFilterChange, filters }) => {
-  
+const DealList = ({ deals, setDeals, handleFilterChange, filters }) => {
   return (
     <main className="deal-list">
-      
-      <DealFilters handleFilterChange={handleFilterChange} filters={filters}/>
+      <div className="deal-list-top">
+        <div className="deal-list-title">Posted Deals</div>
+        <div className="icons">
+          <div className="deal-filter-icon">
+            <DealFilters
+              handleFilterChange={handleFilterChange}
+              filters={filters}
+              setDeals={setDeals}
+            />
+          </div>
+          <div className="sort-filter-icon">
+            <SortFilter filters={filters} setDeals={setDeals} />
+          </div>
+        </div>
+      </div>
       <div className="deal-list-container">
         <div className="deal-list-elements">
           {deals.map((deal) => (
@@ -30,7 +41,7 @@ const DealList = ({ deals, handleFilterChange, filters }) => {
                       <div className="deal-name">{deal.name}</div>
                       <div className="deal-address">{deal.address}</div>
                     </div>
-                    
+
                     <div className="deal-details">
                       <div className="list-summary">Deal Summary</div>
                       <div className="list-titlevalue">
@@ -50,7 +61,10 @@ const DealList = ({ deals, handleFilterChange, filters }) => {
 
                       <div className="list-titlevalue">
                         <div className="list-title">Spread</div>
-                        <div className="list-value">{deal.minimum_rate}% - {deal.maximum_rate}% + {deal.rate_type}</div>
+                        <div className="list-value">
+                          {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
+                          {deal.rate_type}
+                        </div>
                       </div>
 
                       <div className="list-titlevalue">
@@ -89,7 +103,6 @@ const DealList = ({ deals, handleFilterChange, filters }) => {
               </div>
             </div>
           ))}
-          
         </div>
       </div>
     </main>

@@ -1,0 +1,46 @@
+.sort-button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .sort-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 200px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+  
+  .sort-option {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    gap: 10px;
+  }
+  
+  .sort-option:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .clear-sort-option {
+    color: #f44336;
+    padding: 8px;
+    cursor: pointer;
+    
+  }
+  
+  .clear-sort-option:hover {
+    background-color: #f8d7da;
+  }
+  

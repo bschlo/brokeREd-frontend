@@ -1,9 +1,9 @@
 const BACKEND_URL = `${import.meta.env.VITE_BACKEND_SERVER_URL}` 
 
 
-const index = async (filters = {}) => {
+const index = async (filters = {}, sortByLoanAmount = 'asc') => {
     try {
-      const params = new URLSearchParams(filters).toString()
+      const params = new URLSearchParams({...filters, sortByLoanAmount,}).toString()
       const res = await fetch(`${BACKEND_URL}/deals/?${params}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
       });

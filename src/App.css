@@ -1,8 +1,25 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Benne&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&family=Tai+Heritage+Pro:wght@400;700&display=swap');
 
-/* index.css or App.css */
-body {
-    font-family: "STIX Two Text", serif;
-  }
-  
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+
+.main-content {
+    flex-grow: 1;
+}
+
+
+.footer-main {
+    width: 100%;
+    background-color: black;
+    color: white;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
