@@ -39,7 +39,6 @@ const App = () => {
     developers: "",
     unitsMin: "",
     unitsMax: "",
-    developers: "",
   });
 
   const navigate = useNavigate()
