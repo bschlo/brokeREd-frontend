@@ -25,12 +25,16 @@ const Dashboard = ({ user }) => {
     fetchDeals();
   }, []);
 
+  if (!user) {
+    return <p>Loading...</p>;
+  }
+
 
   return (
     <div className="dashboard-main">
       <div className="dashboard-tophalf">
         <div className="welcome-message-container">
-          <div className="welcome-message">Welcome to brokeREd,  {user}.</div>
+          <div className="welcome-message">Welcome to brokeREd,  {user.user.username}.</div>
         </div>
         <div className="dashboard-description">
           View today's lowest loan amounts, highest loan amounts, lowest
@@ -39,7 +43,7 @@ const Dashboard = ({ user }) => {
       </div>
 
       <div className="dashboard-bottomhalf">
-        {/* Lowest Loan Amounts Section */}
+       
         <div className="dashboard-deal-container">
           <div className="bottomhalf-title">
             Top 5 Lowest Loan Amounts Today

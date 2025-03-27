@@ -27,12 +27,17 @@ const NavBar = ({ handleSignout }) => {
           </div>
         </nav>
       ) : (
-        <nav>
-          <div>
-            <Link to="/signin">Sign In</Link>
-          </div>
-          <div>
+        <nav className="nav-bar">
+          <div className="navbar-container">
+          <div className="nav-button">
+              <Link to="/">Landing</Link>
+            </div>
+            <div className="nav-button">
+              <Link to="/signin">Sign In</Link>
+            </div>
+          <div className="nav-button">
             <Link to="/signup">Sign Up</Link>
+          </div>
           </div>
         </nav>
       )}

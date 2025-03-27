@@ -37,3 +37,20 @@ body, html {
 .nav-element {
     width: fit-content;
 }
+
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    margin-left: 40px;
+}
+
+.nav-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+  }
+  

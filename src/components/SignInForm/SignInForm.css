@@ -1,0 +1,91 @@
+.signin-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+  }
+  
+  .signin-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .signin-message {
+    color: #ff4d4d;
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .signin-form {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .signin-input-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .signin-input-group label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .signin-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background: white;
+    color: #333;
+  }
+  
+  .signin-button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .signin-button, .signin-cancel-button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .signin-button {
+    background: white;
+    color: #333;
+  }
+  
+  .signin-button:hover {
+    background: #6a6d93;
+  }
+  
+  .signin-cancel-button {
+    background: #ff4d4d;
+    color: white;
+  }
+  
+  .signin-cancel-button:hover {
+    background: #ff6666;
+  }
+  
+  .signin-cancel-link {
+    text-decoration: none;
+  }
+  
