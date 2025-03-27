@@ -126,7 +126,7 @@ const App = () => {
             <Routes>
               {user ? (
                 <>
-                  <Route path="/" element={<Dashboard user={user} />} />
+                  <Route path="/" element={<Dashboard user={user} deals={deals} />} />
                   <Route path="/deals" element={<DealList setDeals={setDeals} deals={deals} filters={filters} handleFilterChange={handleFilterChange} />} />
                   <Route path="/deals/:dealId" element={<DealDetails handleDeleteDeal={handleDeleteDeal} />} />
                   <Route path='/deals/new' element={<DealForm handleAddDeal={handleAddDeal} />} />

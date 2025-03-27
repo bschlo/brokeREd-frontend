@@ -85,6 +85,17 @@ const fetchDevelopers = async () => {
     console.error('Error fetching developers:', error);
   }
 };
+
+const getTopAndBottomDeals = async () => {
+  try {
+      const res = await fetch(`${BACKEND_URL}/deals/top-bottom/`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      });
+      return res.json();
+  } catch (error) {
+      console.error(error);
+  }
+};
   export { 
     index,
     show,
@@ -92,5 +103,6 @@ const fetchDevelopers = async () => {
     deleteDeal,
     updateDeal,
     fetchDevelopers,
+    getTopAndBottomDeals,
   };
   
