@@ -25,15 +25,16 @@ const Dashboard = ({ user }) => {
     fetchDeals();
   }, []);
 
+
   return (
     <div className="dashboard-main">
       <div className="dashboard-tophalf">
         <div className="welcome-message-container">
-          <div className="welcome-message">Welcome to brokeREd, {user}.</div>
+          <div className="welcome-message">Welcome to brokeREd,  {user}.</div>
         </div>
         <div className="dashboard-description">
           View today's lowest loan amounts, highest loan amounts, lowest
-          spreads, highest spreads, and most active developers.
+          spreads, and highest spreads.
         </div>
       </div>
 
