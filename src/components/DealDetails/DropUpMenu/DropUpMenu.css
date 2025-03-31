@@ -1,0 +1,129 @@
+.parent-container {
+    position: relative; 
+    display: inline-block;  
+}
+
+.parent-container {
+    position: relative; 
+  }
+  
+  .settings-button {
+    cursor: pointer; 
+    z-index: 11; 
+    position: relative; 
+  }
+  
+  .dropup-menu {
+    position: absolute;
+    left: -210px;
+    bottom: 0;  
+    width: 200px; 
+    background-color: white;
+    z-index: 10;
+    opacity: 0; 
+    transform: translateX(50%);
+    transition: transform .7s ease-out, opacity .7s ease-out; 
+    display: flex;
+  }
+  
+  .dropup-menu.show {
+    transform: translateX(0); 
+    opacity: 1; 
+  }
+
+.edit-deal {
+    background-color: white;
+    color: blue; 
+    height: 50px;
+    width: 100px;
+    border: 0;
+    font-size: 20px;
+}
+.delete-deal {
+    background-color: white;
+    color: red;
+    height: 50px;
+    width: 200px;
+    border: 0;
+    font-size: 20px;
+}
+
+.edit-deal:hover {
+    opacity: .4;
+    cursor: pointer;
+}
+
+.delete-deal:hover {
+    opacity: .4;
+    cursor: pointer;
+}
+.settings-button {
+    background-color: white;
+    border: none;
+}
+
+.settings-button:hover {
+    cursor: pointer;
+}
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.warning-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+}
+
+.message {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.cancel-button, .confirm-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer; 
+  width: 150px;
+}
+
+.cancel-button {
+  background-color: #f44336; 
+  color: white;
+}
+
+.confirm-button {
+  background-color: #4CAF50; 
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+}
+
+.confirm-button:hover {
+  background-color: #388e3c;
+}

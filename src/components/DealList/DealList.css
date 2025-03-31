@@ -1,0 +1,219 @@
+body {
+    overflow-x: hidden;
+  }
+
+.deal-list {
+    margin: 60px 100px 100px 100px;
+    
+}
+
+.deal-list a {
+    text-decoration: none;
+}
+
+.deal-list :visited {
+    color: black;
+}
+
+.deal-list-container {
+    margin: 50px 0px 0px 0px;
+}
+
+.deal-list-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.deal-list-title {
+    font-size: 50px;
+}
+
+.deal-item {
+    width: 375px; 
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.deal-image-container {
+    position: relative;
+    width: 100%;
+    max-width: 375px;
+    height: 400px;
+    
+}
+
+.deal-list-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50px;
+    
+}
+
+.deal-info-box {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark background */
+    color: white;
+    box-sizing: border-box;
+    transition: height 0.3s ease, border-radius 0.3s ease;
+    height: 115px; 
+    overflow: hidden; 
+    padding: 0px 1px 0px 15px;
+    border-radius: 50px;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.deal-summary {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0px 0px 20px;
+    gap: 5px;
+    
+}
+
+.deal-loan-amount {
+    font-size: 28px;
+ } 
+
+.deal-address, .deal-name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.deal-details {
+    display: none; 
+    margin-top: 10px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.deal-details::-webkit-scrollbar {
+    width: 8px;
+}
+
+.deal-details::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.deal-details::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.deal-details::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.deal-image-container:hover .deal-info-box {
+    height: 100%; 
+    border-radius: 50px;
+}
+
+.deal-image-container:hover .deal-details {
+    display: block; 
+}
+
+
+.deal-list-elements {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* 4 columns by default */
+    gap: 12px; 
+    align-items: center;
+}
+
+/* Medium screens (max-width: 1200px) */
+@media (max-width: 1200px) {
+    .deal-list-elements {
+        grid-template-columns: repeat(2, 1fr);  /* 2 columns for medium screens */
+        gap: 15px;
+    }
+}
+
+/* Small screens (max-width: 768px) */
+@media (max-width: 768px) {
+    .deal-list-elements {
+        grid-template-columns: repeat(2, 1fr);  /* Still 2 columns for tablets */
+        margin: 0 20px;  /* Adjust margin if needed */
+    }
+}
+
+/* Extra small screens (max-width: 480px) */
+@media (max-width: 480px) {
+    .deal-list-elements {
+        grid-template-columns: 1fr;  /* 1 column for mobile phones */
+    }
+}
+.developer-image-container {
+    width: 45%;
+    height: 25%;
+    background-color: white;
+    padding: 2px;
+}
+.developer-image {
+    width: 100%;
+    height: 100%;
+}
+
+.developerinfo-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;  
+}
+
+.list-titlevalue {
+    display: flex;
+    flex-direction: row;
+    margin: 0px 15px 25px 20px;
+    border-bottom: 1px dotted white;
+    padding: 5px 0px 5px 0px;
+
+}
+
+.list-title {
+    justify-content: left;
+    width: 100px;
+}
+
+.list-value {
+    justify-content: left;
+    width: 200px;
+    flex-wrap: wrap;
+    
+}
+
+.list-user {
+    margin-left: 20px;
+}
+
+.list-summary {
+    margin: 0px 15px 10px 20px;
+    padding-bottom: 5px;
+    font-size: 20px;
+    border-bottom: 1px solid white;
+}
+
+.icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}

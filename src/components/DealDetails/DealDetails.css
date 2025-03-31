@@ -1,0 +1,109 @@
+.deal-details-main {
+  margin: 60px 60px 200px 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.deal-details-tophalf {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0px 0px 50px 40px;
+}
+
+.deal-details-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 50px;
+    justify-content: space-between;
+}
+.deal-details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.deal-details-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.deal-details-title {
+    font: 25px solid black;
+    width: 200px;
+}
+
+.deal-details-value {
+    font-size: 20px;  
+    color: black;    
+    margin: 0px;
+    text-align: left;
+    display: block;        
+    font-weight: bold;
+    max-width: 100%;
+}
+
+.deal-details-img {
+  width: 450px;
+  height: 500px;
+  border: 5px solid black;
+}
+
+.deal-details-executive-summary {
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    gap: 15px;
+}
+
+.executive-summary-title {
+    font-size: 50px;
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.executive-summary-value {
+    font-size: 23px;
+    white-space: pre-line;
+}
+.deal-detail-map {
+    width: 25%;
+    height: 500px;
+    border: 1px solid black;
+
+}
+
+.img-and-information {
+    display: flex;
+    flex-direction: row;
+    gap: 175px;
+}
+
+.deal-details-heading {
+    margin: 0px 0px 50px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.deal-details-dealname {
+    font-size: 65px;
+    padding-bottom: 10px;
+}
+
+.deal-details-developer {
+    font-size: 35px;
+    margin-left: 10px;
+}
+
+.dealname-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    align-items: center;
+}
