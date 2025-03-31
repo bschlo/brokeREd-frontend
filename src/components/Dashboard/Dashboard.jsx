@@ -8,10 +8,12 @@ const Dashboard = ({ user }) => {
   const [bottomLoans, setBottomLoans] = useState([]);
   const [topRates, setTopRates] = useState([]);
   const [bottomRates, setBottomRates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDeals = async () => {
       try {
+        setLoading(true);
         const data = await dealService.getTopAndBottomDeals();
         setTopLoans(data.top_5_loans);
         setBottomLoans(data.bottom_5_loans);
@@ -19,386 +21,393 @@ const Dashboard = ({ user }) => {
         setBottomRates(data.bottom_5_rates);
       } catch (error) {
         console.error("Failed to fetch deals", error);
+      } finally {
+
+        setLoading(false);
       }
     };
 
-    fetchDeals();
-  }, []);
+    if (user) fetchDeals();
+  }, [user]);
 
-  if (!user) {
-    return <p>Loading...</p>;
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
-
   return (
-    <div className="dashboard-main">
-      <div className="dashboard-tophalf">
-        <div className="welcome-message-container">
-          <div className="welcome-message">Welcome to brokeREd,  {user.user.username}.</div>
-        </div>
-        <div className="dashboard-description">
-          View today's lowest loan amounts, highest loan amounts, lowest
-          spreads, and highest spreads.
-        </div>
-      </div>
-
-      <div className="dashboard-bottomhalf">
-       
-        <div className="dashboard-deal-container">
-          <div className="bottomhalf-title">
-            Top 5 Lowest Loan Amounts Today
-          </div>
-          <div className="bottomhalf-value">
-
-            {bottomLoans.map((deal) => (
-              <div key={deal.id} className="deal-item">
-              <div className="deal-image-container">
-                <Link to={`/deals/${deal.id}`}>
-                  <img
-                    className="deal-list-img"
-                    src={deal.image_url || "/default-image.jpg"}
-                    alt={`${deal.name || "Deal"} image`}
-                  />
-                  <div className="deal-info-box">
-                    <div className="deal-summary">
-                      <div className="deal-loan-amount">
-                        ${deal.loan_amount?.toLocaleString() || "N/A"}
-                      </div>
-                      <div className="deal-name">{deal.name}</div>
-                      <div className="deal-address">{deal.address}</div>
-                    </div>
-
-                    <div className="deal-details">
-                      <div className="list-summary">Deal Summary</div>
-                      <div className="list-titlevalue">
-                        <div className="list-title">Asset Class</div>
-                        <div className="list-value">{deal.asset_class}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Units</div>
-                        <div className="list-value">{deal.units}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Deal Type</div>
-                        <div className="list-value">{deal.deal_type}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Spread</div>
-                        <div className="list-value">
-                          {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
-                          {deal.rate_type}
-                        </div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Developer</div>
-                        <div className="list-value">
-                          <div className="developerinfo-container">
-                            {deal.developers?.map((developer) => (
-                              <div
-                                key={developer.id}
-                                className="developer-image-container"
-                              >
-                                <img
-                                  src={
-                                    developer.image_url ||
-                                    "/default-developer.jpg"
-                                  }
-                                  className="developer-image"
-                                  alt={developer.name || "Developer"}
-                                />
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="list-user">
-                        {`${deal.user?.username || "Unknown"} posted on ${
-                          deal.date
-                            ? new Date(deal.date).toLocaleDateString()
-                            : "N/A"
-                        }`}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+    <>
+      {user ? (
+        <div className="dashboard-main">
+          <div className="dashboard-tophalf">
+            <div className="welcome-message-container">
+              <div className="welcome-message">
+                Welcome to brokeREd!
               </div>
             </div>
-            ))}
+            <div className="dashboard-description">
+              View today's lowest loan amounts, highest loan amounts, lowest
+              spreads, and highest spreads.
+            </div>
           </div>
-        </div>
 
-        <div className="dashboard-deal-container">
-          <div className="bottomhalf-title">
-            Top 5 Highest Loan Amounts Today
-          </div>
-          <div className="bottomhalf-value">
+          <div className="dashboard-bottomhalf">
+            <div className="dashboard-deal-container">
+              <div className="bottomhalf-title">
+                Top 5 Lowest Loan Amounts Today
+              </div>
+              <div className="bottomhalf-value">
+                {bottomLoans.map((deal) => (
+                  <div key={deal.id} className="deal-item">
+                    <div className="deal-image-container">
+                      <Link to={`/deals/${deal.id}`}>
+                        <img
+                          className="deal-list-img"
+                          src={deal.image_url || "/default-image.jpg"}
+                          alt={`${deal.name || "Deal"} image`}
+                        />
+                        <div className="deal-info-box">
+                          <div className="deal-summary">
+                            <div className="deal-loan-amount">
+                              ${deal.loan_amount?.toLocaleString() || "N/A"}
+                            </div>
+                            <div className="deal-name">{deal.name}</div>
+                            <div className="deal-address">{deal.address}</div>
+                          </div>
 
-            {topLoans.map((deal) => (
-              <div key={deal.id} className="deal-item">
-              <div className="deal-image-container">
-                <Link to={`/deals/${deal.id}`}>
-                  <img
-                    className="deal-list-img"
-                    src={deal.image_url || "/default-image.jpg"}
-                    alt={`${deal.name || "Deal"} image`}
-                  />
-                  <div className="deal-info-box">
-                    <div className="deal-summary">
-                      <div className="deal-loan-amount">
-                        ${deal.loan_amount?.toLocaleString() || "N/A"}
-                      </div>
-                      <div className="deal-name">{deal.name}</div>
-                      <div className="deal-address">{deal.address}</div>
-                    </div>
-
-                    <div className="deal-details">
-                      <div className="list-summary">Deal Summary</div>
-                      <div className="list-titlevalue">
-                        <div className="list-title">Asset Class</div>
-                        <div className="list-value">{deal.asset_class}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Units</div>
-                        <div className="list-value">{deal.units}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Deal Type</div>
-                        <div className="list-value">{deal.deal_type}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Spread</div>
-                        <div className="list-value">
-                          {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
-                          {deal.rate_type}
-                        </div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Developer</div>
-                        <div className="list-value">
-                          <div className="developerinfo-container">
-                            {deal.developers?.map((developer) => (
-                              <div
-                                key={developer.id}
-                                className="developer-image-container"
-                              >
-                                <img
-                                  src={
-                                    developer.image_url ||
-                                    "/default-developer.jpg"
-                                  }
-                                  className="developer-image"
-                                  alt={developer.name || "Developer"}
-                                />
+                          <div className="deal-details">
+                            <div className="list-summary">Deal Summary</div>
+                            <div className="list-titlevalue">
+                              <div className="list-title">Asset Class</div>
+                              <div className="list-value">
+                                {deal.asset_class}
                               </div>
-                            ))}
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Units</div>
+                              <div className="list-value">{deal.units}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Deal Type</div>
+                              <div className="list-value">{deal.deal_type}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Spread</div>
+                              <div className="list-value">
+                                {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
+                                {deal.rate_type}
+                              </div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Developer</div>
+                              <div className="list-value">
+                                <div className="developerinfo-container">
+                                  {deal.developers?.map((developer) => (
+                                    <div
+                                      key={developer.id}
+                                      className="developer-image-container"
+                                    >
+                                      <img
+                                        src={
+                                          developer.image_url ||
+                                          "/default-developer.jpg"
+                                        }
+                                        className="developer-image"
+                                        alt={developer.name || "Developer"}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="list-user">
+                              {`${deal.user?.username || "Unknown"} posted on ${
+                                deal.date
+                                  ? new Date(deal.date).toLocaleDateString()
+                                  : "N/A"
+                              }`}
+                            </div>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="list-user">
-                        {`${deal.user?.username || "Unknown"} posted on ${
-                          deal.date
-                            ? new Date(deal.date).toLocaleDateString()
-                            : "N/A"
-                        }`}
-                      </div>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                ))}
               </div>
             </div>
-            ))}
-          </div>
-        </div>
 
-        <div className="dashboard-deal-container">
-          <div className="bottomhalf-title">
-            Top 5 Highest Rates Today
-          </div>
-          <div className="bottomhalf-value">
+            <div className="dashboard-deal-container">
+              <div className="bottomhalf-title">
+                Top 5 Highest Loan Amounts Today
+              </div>
+              <div className="bottomhalf-value">
+                {topLoans.map((deal) => (
+                  <div key={deal.id} className="deal-item">
+                    <div className="deal-image-container">
+                      <Link to={`/deals/${deal.id}`}>
+                        <img
+                          className="deal-list-img"
+                          src={deal.image_url || "/default-image.jpg"}
+                          alt={`${deal.name || "Deal"} image`}
+                        />
+                        <div className="deal-info-box">
+                          <div className="deal-summary">
+                            <div className="deal-loan-amount">
+                              ${deal.loan_amount?.toLocaleString() || "N/A"}
+                            </div>
+                            <div className="deal-name">{deal.name}</div>
+                            <div className="deal-address">{deal.address}</div>
+                          </div>
 
-            {topRates.map((deal) => (
-              <div key={deal.id} className="deal-item">
-              <div className="deal-image-container">
-                <Link to={`/deals/${deal.id}`}>
-                  <img
-                    className="deal-list-img"
-                    src={deal.image_url || "/default-image.jpg"}
-                    alt={`${deal.name || "Deal"} image`}
-                  />
-                  <div className="deal-info-box">
-                    <div className="deal-summary">
-                      <div className="deal-loan-amount">
-                        ${deal.loan_amount?.toLocaleString() || "N/A"}
-                      </div>
-                      <div className="deal-name">{deal.name}</div>
-                      <div className="deal-address">{deal.address}</div>
-                    </div>
-
-                    <div className="deal-details">
-                      <div className="list-summary">Deal Summary</div>
-                      <div className="list-titlevalue">
-                        <div className="list-title">Asset Class</div>
-                        <div className="list-value">{deal.asset_class}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Units</div>
-                        <div className="list-value">{deal.units}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Deal Type</div>
-                        <div className="list-value">{deal.deal_type}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Spread</div>
-                        <div className="list-value">
-                          {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
-                          {deal.rate_type}
-                        </div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Developer</div>
-                        <div className="list-value">
-                          <div className="developerinfo-container">
-                            {deal.developers?.map((developer) => (
-                              <div
-                                key={developer.id}
-                                className="developer-image-container"
-                              >
-                                <img
-                                  src={
-                                    developer.image_url ||
-                                    "/default-developer.jpg"
-                                  }
-                                  className="developer-image"
-                                  alt={developer.name || "Developer"}
-                                />
+                          <div className="deal-details">
+                            <div className="list-summary">Deal Summary</div>
+                            <div className="list-titlevalue">
+                              <div className="list-title">Asset Class</div>
+                              <div className="list-value">
+                                {deal.asset_class}
                               </div>
-                            ))}
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Units</div>
+                              <div className="list-value">{deal.units}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Deal Type</div>
+                              <div className="list-value">{deal.deal_type}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Spread</div>
+                              <div className="list-value">
+                                {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
+                                {deal.rate_type}
+                              </div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Developer</div>
+                              <div className="list-value">
+                                <div className="developerinfo-container">
+                                  {deal.developers?.map((developer) => (
+                                    <div
+                                      key={developer.id}
+                                      className="developer-image-container"
+                                    >
+                                      <img
+                                        src={
+                                          developer.image_url ||
+                                          "/default-developer.jpg"
+                                        }
+                                        className="developer-image"
+                                        alt={developer.name || "Developer"}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="list-user">
+                              {`${deal.user?.username || "Unknown"} posted on ${
+                                deal.date
+                                  ? new Date(deal.date).toLocaleDateString()
+                                  : "N/A"
+                              }`}
+                            </div>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="list-user">
-                        {`${deal.user?.username || "Unknown"} posted on ${
-                          deal.date
-                            ? new Date(deal.date).toLocaleDateString()
-                            : "N/A"
-                        }`}
-                      </div>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                ))}
               </div>
             </div>
-            ))}
-          </div>
-        </div>
 
+            <div className="dashboard-deal-container">
+              <div className="bottomhalf-title">Top 5 Highest Rates Today</div>
+              <div className="bottomhalf-value">
+                {topRates.map((deal) => (
+                  <div key={deal.id} className="deal-item">
+                    <div className="deal-image-container">
+                      <Link to={`/deals/${deal.id}`}>
+                        <img
+                          className="deal-list-img"
+                          src={deal.image_url || "/default-image.jpg"}
+                          alt={`${deal.name || "Deal"} image`}
+                        />
+                        <div className="deal-info-box">
+                          <div className="deal-summary">
+                            <div className="deal-loan-amount">
+                              ${deal.loan_amount?.toLocaleString() || "N/A"}
+                            </div>
+                            <div className="deal-name">{deal.name}</div>
+                            <div className="deal-address">{deal.address}</div>
+                          </div>
 
-        <div className="dashboard-deal-container">
-          <div className="bottomhalf-title">
-            Top 5 Lowest Rates Today
-          </div>
-          <div className="bottomhalf-value">
-
-            {topLoans.map((deal) => (
-              <div key={deal.id} className="deal-item">
-              <div className="deal-image-container">
-                <Link to={`/deals/${deal.id}`}>
-                  <img
-                    className="deal-list-img"
-                    src={deal.image_url || "/default-image.jpg"}
-                    alt={`${deal.name || "Deal"} image`}
-                  />
-                  <div className="deal-info-box">
-                    <div className="deal-summary">
-                      <div className="deal-loan-amount">
-                        ${deal.loan_amount?.toLocaleString() || "N/A"}
-                      </div>
-                      <div className="deal-name">{deal.name}</div>
-                      <div className="deal-address">{deal.address}</div>
-                    </div>
-
-                    <div className="deal-details">
-                      <div className="list-summary">Deal Summary</div>
-                      <div className="list-titlevalue">
-                        <div className="list-title">Asset Class</div>
-                        <div className="list-value">{deal.asset_class}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Units</div>
-                        <div className="list-value">{deal.units}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Deal Type</div>
-                        <div className="list-value">{deal.deal_type}</div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Spread</div>
-                        <div className="list-value">
-                          {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
-                          {deal.rate_type}
-                        </div>
-                      </div>
-
-                      <div className="list-titlevalue">
-                        <div className="list-title">Developer</div>
-                        <div className="list-value">
-                          <div className="developerinfo-container">
-                            {deal.developers?.map((developer) => (
-                              <div
-                                key={developer.id}
-                                className="developer-image-container"
-                              >
-                                <img
-                                  src={
-                                    developer.image_url ||
-                                    "/default-developer.jpg"
-                                  }
-                                  className="developer-image"
-                                  alt={developer.name || "Developer"}
-                                />
+                          <div className="deal-details">
+                            <div className="list-summary">Deal Summary</div>
+                            <div className="list-titlevalue">
+                              <div className="list-title">Asset Class</div>
+                              <div className="list-value">
+                                {deal.asset_class}
                               </div>
-                            ))}
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Units</div>
+                              <div className="list-value">{deal.units}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Deal Type</div>
+                              <div className="list-value">{deal.deal_type}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Spread</div>
+                              <div className="list-value">
+                                {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
+                                {deal.rate_type}
+                              </div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Developer</div>
+                              <div className="list-value">
+                                <div className="developerinfo-container">
+                                  {deal.developers?.map((developer) => (
+                                    <div
+                                      key={developer.id}
+                                      className="developer-image-container"
+                                    >
+                                      <img
+                                        src={
+                                          developer.image_url ||
+                                          "/default-developer.jpg"
+                                        }
+                                        className="developer-image"
+                                        alt={developer.name || "Developer"}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="list-user">
+                              {`${deal.user?.username || "Unknown"} posted on ${
+                                deal.date
+                                  ? new Date(deal.date).toLocaleDateString()
+                                  : "N/A"
+                              }`}
+                            </div>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="list-user">
-                        {`${deal.user?.username || "Unknown"} posted on ${
-                          deal.date
-                            ? new Date(deal.date).toLocaleDateString()
-                            : "N/A"
-                        }`}
-                      </div>
+                      </Link>
                     </div>
                   </div>
-                </Link>
+                ))}
               </div>
             </div>
-            ))}
+
+            <div className="dashboard-deal-container">
+              <div className="bottomhalf-title">Top 5 Lowest Rates Today</div>
+              <div className="bottomhalf-value">
+                {bottomRates.map((deal) => (
+                  <div key={deal.id} className="deal-item">
+                    <div className="deal-image-container">
+                      <Link to={`/deals/${deal.id}`}>
+                        <img
+                          className="deal-list-img"
+                          src={deal.image_url || "/default-image.jpg"}
+                          alt={`${deal.name || "Deal"} image`}
+                        />
+                        <div className="deal-info-box">
+                          <div className="deal-summary">
+                            <div className="deal-loan-amount">
+                              ${deal.loan_amount?.toLocaleString() || "N/A"}
+                            </div>
+                            <div className="deal-name">{deal.name}</div>
+                            <div className="deal-address">{deal.address}</div>
+                          </div>
+
+                          <div className="deal-details">
+                            <div className="list-summary">Deal Summary</div>
+                            <div className="list-titlevalue">
+                              <div className="list-title">Asset Class</div>
+                              <div className="list-value">
+                                {deal.asset_class}
+                              </div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Units</div>
+                              <div className="list-value">{deal.units}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Deal Type</div>
+                              <div className="list-value">{deal.deal_type}</div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Spread</div>
+                              <div className="list-value">
+                                {deal.minimum_rate}% - {deal.maximum_rate}% +{" "}
+                                {deal.rate_type}
+                              </div>
+                            </div>
+
+                            <div className="list-titlevalue">
+                              <div className="list-title">Developer</div>
+                              <div className="list-value">
+                                <div className="developerinfo-container">
+                                  {deal.developers?.map((developer) => (
+                                    <div
+                                      key={developer.id}
+                                      className="developer-image-container"
+                                    >
+                                      <img
+                                        src={
+                                          developer.image_url ||
+                                          "/default-developer.jpg"
+                                        }
+                                        className="developer-image"
+                                        alt={developer.name || "Developer"}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="list-user">
+                              {`${deal.user?.username || "Unknown"} posted on ${
+                                deal.date
+                                  ? new Date(deal.date).toLocaleDateString()
+                                  : "N/A"
+                              }`}
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-
-      </div>
-    </div>
+      ) : (
+        <div>Loading...</div>
+      )}
+    </>
   );
 };
 

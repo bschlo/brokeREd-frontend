@@ -45,7 +45,7 @@ const DealFilters = ({ filters, handleFilterChange, setDeals}) => {
       console.error("Error resetting sort:", error);
     }
   };
-  console.log("Filters before resetting:", filters);
+
   return (
     <div className="filter-container" ref={filterRef}>
       <div className="filter-header" onClick={toggleFilters}>

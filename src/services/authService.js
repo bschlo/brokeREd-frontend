@@ -1,4 +1,6 @@
+
 const BACKEND_URL = import.meta.env.VITE_BACKEND_SERVER_URL;
+
 
 const signup = async (formData) => {
   try {
@@ -57,6 +59,7 @@ const signin = async (user) => {
       const user = json.user;
       localStorage.setItem('access', json.access); 
       localStorage.setItem('user', JSON.stringify(user)); 
+      
 
       return user;
     }

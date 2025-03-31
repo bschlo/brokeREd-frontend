@@ -1,7 +1,7 @@
 // App.jsx
 
 import { createContext, useState, useEffect } from 'react';
-import { Routes, Route, useNavigate} from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate} from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import SignupForm from './components/SignUpForm/SignUpForm';
 import Landing from './components/Landing/Landing';
@@ -23,7 +23,14 @@ const libraries = ["places"];
 const App = () => {
   const [user, setUser] = useState(authService.getUser());
   const [deals, setDeals] = useState([])
-  
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const currentUser = authService.getUser();
+    setUser(currentUser);
+    setIsLoading(false)
+  }, []);
+
   const [filters, setFilters] = useState({
     storiesMin: "",
     storiesMax: "",
@@ -52,9 +59,8 @@ const App = () => {
       }
     };
     fetchAllDeals();
-  }, [user, filters]); // Include both user and filters as dependencies
-
-  // Handle filter changes
+  }, [user, filters]); 
+  
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
 
@@ -115,14 +121,16 @@ const App = () => {
 
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY; 
   
+  
 
   return (
     <AuthedUserContext.Provider value={user}>
       <LoadScript googleMapsApiKey={GOOGLE_MAPS_API_KEY} libraries={libraries}>
         <div className="page-container">
           <NavBar handleSignout={handleSignout} />
-  
+          
           <div className="main-content">
+          {!isLoading && (
             <Routes>
               {user ? (
                 <>
@@ -137,13 +145,16 @@ const App = () => {
                   <Route path="/" element={<Landing />} />
                   <Route path="/signup" element={<SignupForm setUser={setUser} />} />
                   <Route path="/signin" element={<SigninForm setUser={setUser} />} />
+                  <Route path="*" element={<Navigate to="/signin" replace />} />
                 </>
               )}
             </Routes>
+             )}
+             {isLoading && <div>Loading...</div>}
           </div>
-  
           <Footer />
         </div>
+        
       </LoadScript>
     </AuthedUserContext.Provider>
   );
