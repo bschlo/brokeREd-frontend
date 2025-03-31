@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Fixed import
+import { Link } from "react-router-dom"; 
 import "./DealList.css";
 import DealFilters from "./DealFilters/DealFilters";
 import SortFilter from "./SortFilter/SortFilter";

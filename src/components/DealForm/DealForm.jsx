@@ -55,13 +55,13 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     developers: [],
   });
   const [developers, setDevelopers] = useState([]);
-  const [coordinates, setCoordinates] = useState(null); // Store lat and lng
+  const [coordinates, setCoordinates] = useState(null); 
   const { dealId } = useParams();
   
 
-  const autocompleteRef = useRef(null); // Reference for Autocomplete component
+  const autocompleteRef = useRef(null); 
 
-  // Handle address change
+  
   const handleAddressChange = (e) => {
     setFormData({ ...formData, address: e.target.value });
   };
@@ -116,7 +116,6 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     }
   };
 
-  // Function to geocode the address
   const geocodeAddress = (address) => {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address: address }, (results, status) => {
