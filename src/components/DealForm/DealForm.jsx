@@ -38,6 +38,8 @@ const RATETYPES = [
 
 const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
   const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+
+  
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -61,7 +63,6 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
 
   const autocompleteRef = useRef(null); 
 
-  
   const handleAddressChange = (e) => {
     setFormData({ ...formData, address: e.target.value });
   };
@@ -129,11 +130,15 @@ const DealForm = ({ handleAddDeal, handleUpdateDeal }) => {
     });
   };
 
+
+
   useEffect(() => {
     if (formData.address && google && google.maps) {
       geocodeAddress(formData.address); 
     }
   }, [formData.address]);
+
+  
 
   useEffect(() => {
     const fetchDevelopers = async () => {

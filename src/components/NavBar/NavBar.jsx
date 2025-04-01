@@ -11,7 +11,7 @@ const NavBar = ({ handleSignout }) => {
         <nav className="nav-bar">
           <div className="nav-bar-container">
             <div className="nav-element">
-              <Link to="/">Home</Link>
+              <Link to="/">brokeREd</Link>
             </div>
             <div className="nav-element">
               <Link to="/deals">All Deals</Link>
@@ -30,7 +30,7 @@ const NavBar = ({ handleSignout }) => {
         <nav className="nav-bar">
           <div className="navbar-container">
           <div className="nav-button">
-              <Link to="/">Landing</Link>
+              <Link to="/">brokeREd</Link>
             </div>
             <div className="nav-button">
               <Link to="/signin">Sign In</Link>
