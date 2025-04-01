@@ -98,6 +98,40 @@ const getTopAndBottomDeals = async () => {
       console.error(error);
   }
 };
+
+const saveDeal = async (dealId) => {
+  try {
+    
+    const token = localStorage.getItem('access'); 
+
+    const res = await fetch(`${BACKEND_URL}/save-deal/${dealId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, 
+      },
+    });
+
+    if (!res.ok) {
+      
+      throw new Error('Failed to save or unsave the deal');
+    }
+
+    const data = await res.json();
+    
+    if (data.message === 'Deal saved to profile') {
+      console.log('Deal saved successfully!');
+    } else if (data.message === 'Deal unsaved from profile') {
+      console.log('Deal removed from profile');
+    }
+
+    return data;
+
+  } catch (error) {
+    console.error('Error saving deal:', error);
+    
+  }
+};
   export { 
     index,
     show,
@@ -106,5 +140,6 @@ const getTopAndBottomDeals = async () => {
     updateDeal,
     fetchDevelopers,
     getTopAndBottomDeals,
+    saveDeal,
   };
   
