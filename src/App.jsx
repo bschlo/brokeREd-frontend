@@ -52,7 +52,7 @@ const App = () => {
   useEffect(() => {
     const fetchAllDeals = async () => {
       if (user) {
-        const dealData = await dealService.index(filters, 'date'); // Fetch deals with filters
+        const dealData = await dealService.index(filters, 'date'); 
         setDeals(dealData);
       }
     };

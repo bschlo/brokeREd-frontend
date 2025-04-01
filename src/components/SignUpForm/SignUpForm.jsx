@@ -33,8 +33,13 @@ const SignupForm = (props) => {
 
   const { username, password, passwordConf } = formData;
 
+  const isPasswordValid = () => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{6,}$/;
+    return passwordRegex.test(password);
+  };
+
   const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
+    return !(username && password && password === passwordConf && isPasswordValid());
   };
 
   return (
@@ -63,6 +68,11 @@ const SignupForm = (props) => {
             className="signup-input"
             onChange={handleChange}
           />
+          {!isPasswordValid() && password && (
+            <p style={{ color: 'white' }}>
+              Password must be at least 6 characters long, include an uppercase letter, a lowercase letter, and a special character.
+            </p>
+          )}
         </div>
         <div className="signup-input-group">
           <label htmlFor="confirm">Confirm Password:</label>
@@ -74,6 +84,9 @@ const SignupForm = (props) => {
             className="signup-input"
             onChange={handleChange}
           />
+           {passwordConf && password !== passwordConf && (
+            <p style={{ color: 'white' }}>Passwords do not match.</p>
+          )}
         </div>
         <div className="signup-button-group">
           <button type="submit" className="signup-button" disabled={isFormInvalid()}>
