@@ -80,7 +80,9 @@ const fetchDevelopers = async () => {
     const res = await fetch(`${BACKEND_URL}/developers/`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
     });
+    
     return res.json();
+    
   } catch (error) {
     console.error('Error fetching developers:', error);
   }

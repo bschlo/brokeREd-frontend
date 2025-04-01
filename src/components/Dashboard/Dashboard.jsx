@@ -52,6 +52,7 @@ const Dashboard = ({ user }) => {
               <div className="bottomhalf-title">
                 Top 5 Lowest Loan Amounts Today
               </div>
+              <div className="bottomhalf-value-container"></div>
               <div className="bottomhalf-value">
                 {bottomLoans.length < 1 ? (
                   <p className="no-deals-message">No deals posted yet.</p>
