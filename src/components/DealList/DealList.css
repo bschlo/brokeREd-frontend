@@ -217,3 +217,7 @@ body {
     align-items: center;
     gap: 30px;
 }
+
+.no-deals-message a {
+    color: blue !important;
+}
