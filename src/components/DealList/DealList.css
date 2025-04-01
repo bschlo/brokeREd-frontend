@@ -157,7 +157,7 @@ body {
 /* Extra small screens (max-width: 480px) */
 @media (max-width: 480px) {
     .deal-list-elements {
-        grid-template-columns: 1fr;  /* 1 column for mobile phones */
+        grid-template-columns: 1fr; 
     }
 }
 .developer-image-container {
