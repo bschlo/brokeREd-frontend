@@ -72,7 +72,7 @@ const Dashboard = ({ user }) => {
                                 ${deal.loan_amount?.toLocaleString() || "N/A"}
                               </div>
                               <div className="deal-name">{deal.name}</div>
-                              <div className="deal-address">{deal.address}</div>
+                              <div className="deal-address">{deal.address.split(",")[1].trim() + ", " + deal.address.split(",")[2].split(" ")[1]}</div>
                             </div>
 
                             <div className="deal-details">
@@ -169,7 +169,7 @@ const Dashboard = ({ user }) => {
                                 ${deal.loan_amount?.toLocaleString() || "N/A"}
                               </div>
                               <div className="deal-name">{deal.name}</div>
-                              <div className="deal-address">{deal.address}</div>
+                              <div className="deal-address">{deal.address.split(",")[1].trim() + ", " + deal.address.split(",")[2].split(" ")[1]}</div>
                             </div>
 
                             <div className="deal-details">
@@ -264,7 +264,7 @@ const Dashboard = ({ user }) => {
                                 ${deal.loan_amount?.toLocaleString() || "N/A"}
                               </div>
                               <div className="deal-name">{deal.name}</div>
-                              <div className="deal-address">{deal.address}</div>
+                              <div className="deal-address">{deal.address.split(",")[1].trim() + ", " + deal.address.split(",")[2].split(" ")[1]}</div>
                             </div>
 
                             <div className="deal-details">
@@ -359,7 +359,7 @@ const Dashboard = ({ user }) => {
                                 ${deal.loan_amount?.toLocaleString() || "N/A"}
                               </div>
                               <div className="deal-name">{deal.name}</div>
-                              <div className="deal-address">{deal.address}</div>
+                              <div className="deal-address">{deal.address.split(",")[1].trim() + ", " + deal.address.split(",")[2].split(" ")[1]}</div>
                             </div>
 
                             <div className="deal-details">
