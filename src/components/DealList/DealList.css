@@ -17,6 +17,7 @@ body {
 
 .deal-list-container {
     margin: 50px 40px 0px 0px;
+
 }
 
 .deal-list-top {
@@ -133,7 +134,7 @@ body {
 
 .deal-list-elements {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);  /* 4 columns by default */
+    grid-template-columns: repeat(4, 1fr);  /* 4 columns by default */
     gap: 12px; 
     align-items: center;
 }
