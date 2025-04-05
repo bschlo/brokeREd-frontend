@@ -34,15 +34,12 @@ const signup = async (formData) => {
 
 const signin = async (user) => {
   try {
+    // Use regular fetch for authentication endpoints
     const res = await fetch(`${BACKEND_URL}/users/login/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     });
-
-    if (!res) {
-      throw new Error('No response from server');
-    }
 
     if (!res.ok) {
       const errorMessage = await res.text();
@@ -68,7 +65,6 @@ const signin = async (user) => {
     throw err;
   }
 };
-
 const getUser = () => {
   const userStr = localStorage.getItem("user");
   const accessToken = localStorage.getItem("access");
@@ -91,7 +87,6 @@ const signout = () => {
   localStorage.removeItem('user');
   console.log("User has been signed out.");
 };
-
 
 const authFetch = async (endpoint, options = {}) => {
   const token = localStorage.getItem('access');

@@ -5,9 +5,15 @@ const index = async (filters = {}, sortByLoanAmount = 'asc') => {
   try {
     const params = new URLSearchParams({ ...filters, sortByLoanAmount }).toString();
     const res = await authFetch(`${BACKEND_URL}/deals/?${params}`);
-    return res.json();
+    
+    if (!res) {
+      throw new Error('No response from server');
+    }
+    
+    return await res.json();
   } catch (error) {
-    console.error(error);
+    console.error('Failed to fetch deals:', error);
+    throw error; 
   }
 };
 

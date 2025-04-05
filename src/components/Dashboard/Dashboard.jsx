@@ -14,9 +14,6 @@ const Dashboard = ({ user }) => {
 
   useEffect(() => {
     const fetchDeals = async () => {
-      if (!user) {
-        authService.signout()
-      }
       try {
         setLoading(true);
         const data = await dealService.getTopAndBottomDeals();
