@@ -1,8 +1,4 @@
-
 const BACKEND_URL = import.meta.env.VITE_BACKEND_SERVER_URL;
-import { useNavigate } from "react-router";
-
-const navigate = useNavigate()
 
 const signup = async (formData) => {
   try {
@@ -21,10 +17,8 @@ const signup = async (formData) => {
 
     if (json.access) {
       localStorage.setItem('access', json.access);
-
       const user = json.user;
       localStorage.setItem('user', JSON.stringify(user));
-
       return user;
     }
 
@@ -61,8 +55,6 @@ const signin = async (user) => {
       const user = json.user;
       localStorage.setItem('access', json.access); 
       localStorage.setItem('user', JSON.stringify(user)); 
-      
-
       return user;
     }
   } catch (err) {
@@ -82,7 +74,7 @@ const getUser = () => {
     return null;
   } catch (error) {
     console.error("Invalid JSON in localStorage:", userStr);
-    signout()
+    signout();
     localStorage.removeItem("user"); 
     return { user: null, token: accessToken }; 
   }
@@ -94,12 +86,12 @@ const signout = () => {
   console.log("User has been signed out.");
 };
 
+// `authFetch` does not handle navigation anymore, we just return the fetch result
 const authFetch = async (endpoint, options = {}) => {
   const token = localStorage.getItem('access');
 
   if (!token) {
     signout();
-    navigate('/signin') 
     return null;
   }
 
@@ -114,13 +106,10 @@ const authFetch = async (endpoint, options = {}) => {
 
   if (res.status === 401) {
     signout();
-    navigate('/signin')  
     return null;
   }
 
   return res;
 };
-
-
 
 export { signup, signin, getUser, signout, authFetch };
