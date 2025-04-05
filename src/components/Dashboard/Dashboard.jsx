@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as dealService from "../../services/dealService";
 import "../Dashboard/Dashboard.css";
 import { Link } from "react-router-dom";
+import * as authService from "../../services/authService"
 
 
 const Dashboard = ({ user }) => {
@@ -27,7 +28,11 @@ const Dashboard = ({ user }) => {
       }
     };
 
-    if (user) fetchDeals();
+    if (user)  {
+      fetchDeals();
+    } else {
+      authService.signout()
+    }
   }, [user]);
 
   if (loading) {
