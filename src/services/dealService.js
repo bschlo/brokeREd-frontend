@@ -1,10 +1,11 @@
+import { authFetch } from "./authService";
 const BACKEND_URL = `${import.meta.env.VITE_BACKEND_SERVER_URL}` 
 
 
 const index = async (filters = {}, sortByLoanAmount = 'asc') => {
     try {
       const params = new URLSearchParams({...filters, sortByLoanAmount,}).toString()
-      const res = await fetch(`${BACKEND_URL}/deals/?${params}`, {
+      const res = await authFetch(`${BACKEND_URL}/deals/?${params}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
       });
       return res.json();
@@ -15,7 +16,7 @@ const index = async (filters = {}, sortByLoanAmount = 'asc') => {
 
   const show = async (dealId) => {
     try {
-      const res = await fetch(`${BACKEND_URL}/deals/${dealId}/`, {
+      const res = await authFetch(`${BACKEND_URL}/deals/${dealId}/`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
       });
       return res.json()
@@ -27,7 +28,7 @@ const index = async (filters = {}, sortByLoanAmount = 'asc') => {
 
 const create = async (dealFormData) => {
   try {
-    const res = await fetch(`${BACKEND_URL}/deals/`, {
+    const res = await authFetch(`${BACKEND_URL}/deals/`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access')}`,
@@ -48,7 +49,7 @@ const create = async (dealFormData) => {
 
 const deleteDeal = async (dealId) => {
   try {
-    await fetch(`${BACKEND_URL}/deals/${dealId}/`, {
+    await authFetch(`${BACKEND_URL}/deals/${dealId}/`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('access')}`,
@@ -61,7 +62,7 @@ const deleteDeal = async (dealId) => {
 
 const updateDeal = async (dealId, dealFormData) => {
   try {
-    const res = await fetch(`${BACKEND_URL}/deals/${dealId}/`, {
+    const res = await authFetch(`${BACKEND_URL}/deals/${dealId}/`, {
       method: 'PUT',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('access')}`,
@@ -77,7 +78,7 @@ const updateDeal = async (dealId, dealFormData) => {
 
 const fetchDevelopers = async () => {
   try {
-    const res = await fetch(`${BACKEND_URL}/developers/`, {
+    const res = await authFetch(`${BACKEND_URL}/developers/`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('access')}` },
     });
     
@@ -90,7 +91,7 @@ const fetchDevelopers = async () => {
 
 const getTopAndBottomDeals = async () => {
   try {
-      const res = await fetch(`${BACKEND_URL}/deals/top-bottom/`, {
+      const res = await authFetch(`${BACKEND_URL}/deals/top-bottom/`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
       });
       return res.json();
