@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as dealService from "../../services/dealService";
 import "../Dashboard/Dashboard.css";
 import { Link } from "react-router-dom";
+import { authFetch } from "../../services/authService";
 
 const Dashboard = ({ user }) => {
   const [topLoans, setTopLoans] = useState([]);

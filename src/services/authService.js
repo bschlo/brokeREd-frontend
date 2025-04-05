@@ -92,7 +92,34 @@ const getUser = () => {
   }
 };
 
+const authFetch = async (endpoint, options = {}) => {
+  const token = localStorage.getItem('access');
+
+  if (!token) {
+    signout();
+    window.location.href = '/signin';
+    return null;
+  }
+
+  const res = await fetch(`${BACKEND_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      ...(options.headers || {}),
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status === 401) {
+    signout(); // clear localStorage
+    window.location.href = '/signin'; // redirect to login
+    return null;
+  }
+
+  return res;
+};
 
 
 
-export { signup, signin, getUser, signout };
+
+export { signup, signin, getUser, signout, authFetch };

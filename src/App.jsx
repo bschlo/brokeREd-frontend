@@ -24,10 +24,18 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const currentUser = authService.getUser();
-    setUser(currentUser);
-    setIsLoading(false)
-  }, []);
+    const fetchUserData = async () => {
+      const userData = await authService.authFetch('/users/me/');
+      if (userData) {
+        setUser(userData);
+      } else {
+        navigate('/signin'); 
+      }
+      setIsLoading(false);
+    };
+
+    fetchUserData();
+  }, [navigate]);
 
   const [filters, setFilters] = useState({
     storiesMin: "",
@@ -89,6 +97,7 @@ const App = () => {
   const handleSignout = () => {
     authService.signout()
     setUser(null)
+    navigate('/signin');
   }
 
   const handleAddDeal = async (dealFormData) => {
