@@ -80,6 +80,7 @@ const getUser = () => {
     return null;
   } catch (error) {
     console.error("Invalid JSON in localStorage:", userStr);
+    signout()
     localStorage.removeItem("user"); 
     return { user: null, token: accessToken }; 
   }
