@@ -69,12 +69,6 @@ const signin = async (user) => {
   }
 };
 
-const signout = () => {
-  localStorage.removeItem('access');
-  localStorage.removeItem('user');
-  console.log("User has been signed out.");
-};
-
 const getUser = () => {
   const userStr = localStorage.getItem("user");
   const accessToken = localStorage.getItem("access");
@@ -86,40 +80,16 @@ const getUser = () => {
     return null;
   } catch (error) {
     console.error("Invalid JSON in localStorage:", userStr);
-    signout()
     localStorage.removeItem("user"); 
     return { user: null, token: accessToken }; 
   }
 };
 
-const authFetch = async (endpoint, options = {}) => {
-  const token = localStorage.getItem('access');
-
-  if (!token) {
-    signout();
-    window.location.href = '/signin';
-    return null;
-  }
-
-  const res = await fetch(`${BACKEND_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      ...(options.headers || {}),
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status === 401) {
-    signout(); // clear localStorage
-    window.location.href = '/signin'; // redirect to login
-    return null;
-  }
-
-  return res;
+const signout = () => {
+  localStorage.removeItem('access');
+  localStorage.removeItem('user');
+  console.log("User has been signed out.");
 };
 
 
-
-
-export { signup, signin, getUser, signout, authFetch };
+export { signup, signin, getUser, signout };
