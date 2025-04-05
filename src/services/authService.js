@@ -69,6 +69,12 @@ const signin = async (user) => {
   }
 };
 
+const signout = () => {
+  localStorage.removeItem('access');
+  localStorage.removeItem('user');
+  console.log("User has been signed out.");
+};
+
 const getUser = () => {
   const userStr = localStorage.getItem("user");
   const accessToken = localStorage.getItem("access");
@@ -80,15 +86,13 @@ const getUser = () => {
     return null;
   } catch (error) {
     console.error("Invalid JSON in localStorage:", userStr);
+    signout()
     localStorage.removeItem("user"); 
     return { user: null, token: accessToken }; 
   }
 };
 
-const signout = () => {
-  localStorage.removeItem('access');
-  localStorage.removeItem('user');
-  console.log("User has been signed out.");
-};
+
+
 
 export { signup, signin, getUser, signout };
