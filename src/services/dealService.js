@@ -1,10 +1,10 @@
 import { authFetch } from "./authService";
-const BACKEND_URL = `${import.meta.env.VITE_BACKEND_SERVER_URL}`;
+const BASE_URL = import.meta.env.VITE_BACKEND_SERVER_URL
 
 const index = async (filters = {}, sortByLoanAmount = 'asc') => {
   try {
     const params = new URLSearchParams({ ...filters, sortByLoanAmount }).toString();
-    const res = await authFetch(`${BACKEND_URL}/deals/?${params}`);
+    const res = await authFetch(`${BASE_URL}/deals/?${params}`);
     
     if (!res) {
       throw new Error('No response from server');
@@ -19,7 +19,7 @@ const index = async (filters = {}, sortByLoanAmount = 'asc') => {
 
 const show = async (dealId) => {
   try {
-    const res = await authFetch(`${BACKEND_URL}/deals/${dealId}/`);
+    const res = await authFetch(`${BASE_URL}/deals/${dealId}/`);
     return res.json();
   } catch (error) {
     console.error(error);
@@ -28,7 +28,7 @@ const show = async (dealId) => {
 
 const create = async (dealFormData) => {
   try {
-    const res = await authFetch(`${BACKEND_URL}/deals/`, {
+    const res = await authFetch(`${BASE_URL}/deals/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const create = async (dealFormData) => {
 
 const deleteDeal = async (dealId) => {
   try {
-    await authFetch(`${BACKEND_URL}/deals/${dealId}/`, {
+    await authFetch(`${BASE_URL}/deals/${dealId}/`, {
       method: 'DELETE',
     });
   } catch (error) {
@@ -60,7 +60,7 @@ const deleteDeal = async (dealId) => {
 
 const updateDeal = async (dealId, dealFormData) => {
   try {
-    const res = await authFetch(`${BACKEND_URL}/deals/${dealId}/`, {
+    const res = await authFetch(`${BASE_URL}/deals/${dealId}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const updateDeal = async (dealId, dealFormData) => {
 
 const fetchDevelopers = async () => {
   try {
-    const res = await authFetch(`${BACKEND_URL}/developers/`);
+    const res = await authFetch(`${BASE_URL}/developers/`);
     return res.json();
   } catch (error) {
     console.error('Error fetching developers:', error);
@@ -84,7 +84,7 @@ const fetchDevelopers = async () => {
 
 const getTopAndBottomDeals = async () => {
   try {
-    const res = await authFetch(`${BACKEND_URL}/deals/top-bottom/`);
+    const res = await authFetch(`${BASE_URL}/deals/top-bottom/`);
     return res.json();
   } catch (error) {
     console.error(error);

@@ -1,8 +1,8 @@
-const BACKEND_URL = import.meta.env.VITE_BACKEND_SERVER_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_SERVER_URL
 
 const signup = async (formData) => {
   try {
-    const res = await fetch(`${BACKEND_URL}/users/register/`, {
+    const res = await fetch(`${BASE_URL}/users/register/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
@@ -35,7 +35,7 @@ const signup = async (formData) => {
 const signin = async (user) => {
   try {
     // Use regular fetch for authentication endpoints
-    const res = await fetch(`${BACKEND_URL}/users/login/`, {
+    const res = await fetch(`${BASE_URL}/users/login/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -96,7 +96,7 @@ const authFetch = async (endpoint, options = {}) => {
     return null;
   }
 
-  const res = await fetch(`${BACKEND_URL}${endpoint}`, {
+  const res = await fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers: {
       ...(options.headers || {}),
