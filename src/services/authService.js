@@ -40,6 +40,10 @@ const signin = async (user) => {
       body: JSON.stringify(user),
     });
 
+    if (!res) {
+      throw new Error('No response from server');
+    }
+
     if (!res.ok) {
       const errorMessage = await res.text();
       throw new Error(errorMessage);
@@ -53,12 +57,14 @@ const signin = async (user) => {
 
     if (json.access) {
       const user = json.user;
-      localStorage.setItem('access', json.access); 
-      localStorage.setItem('user', JSON.stringify(user)); 
+      localStorage.setItem('access', json.access);
+      localStorage.setItem('user', JSON.stringify(user));
       return user;
     }
+
+    return json;
   } catch (err) {
-    console.log(err);
+    console.error('Signin error:', err);
     throw err;
   }
 };
@@ -86,7 +92,7 @@ const signout = () => {
   console.log("User has been signed out.");
 };
 
-// `authFetch` does not handle navigation anymore, we just return the fetch result
+
 const authFetch = async (endpoint, options = {}) => {
   const token = localStorage.getItem('access');
 
