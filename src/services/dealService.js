@@ -1,9 +1,19 @@
 const BASE_URL = import.meta.env.VITE_BACKEND_SERVER_URL;
 
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('access');
+  return {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  };
+};
+
 const index = async (filters = {}, sortByLoanAmount = 'asc') => {
   try {
     const params = new URLSearchParams({ ...filters, sortByLoanAmount }).toString();
-    const res = await fetch(`${BASE_URL}/deals/?${params}`);
+    const res = await fetch(`${BASE_URL}/deals/?${params}`, {
+      headers: getAuthHeaders(),
+    });
 
     if (!res.ok) {
       throw new Error(`Failed to fetch deals. Status: ${res.status}`);
@@ -18,7 +28,9 @@ const index = async (filters = {}, sortByLoanAmount = 'asc') => {
 
 const show = async (dealId) => {
   try {
-    const res = await fetch(`${BASE_URL}/deals/${dealId}/`);
+    const res = await fetch(`${BASE_URL}/deals/${dealId}/`, {
+      headers: getAuthHeaders(),
+    });
 
     if (!res.ok) {
       throw new Error(`Failed to fetch deal ${dealId}. Status: ${res.status}`);
@@ -35,9 +47,7 @@ const create = async (dealFormData) => {
   try {
     const res = await fetch(`${BASE_URL}/deals/`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(dealFormData),
     });
 
@@ -58,6 +68,7 @@ const deleteDeal = async (dealId) => {
   try {
     const res = await fetch(`${BASE_URL}/deals/${dealId}/`, {
       method: 'DELETE',
+      headers: getAuthHeaders(),
     });
 
     if (!res.ok) {
@@ -73,9 +84,7 @@ const updateDeal = async (dealId, dealFormData) => {
   try {
     const res = await fetch(`${BASE_URL}/deals/${dealId}/`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(dealFormData),
     });
 
@@ -92,7 +101,9 @@ const updateDeal = async (dealId, dealFormData) => {
 
 const fetchDevelopers = async () => {
   try {
-    const res = await fetch(`${BASE_URL}/developers/`);
+    const res = await fetch(`${BASE_URL}/developers/`, {
+      headers: getAuthHeaders(),
+    });
 
     if (!res.ok) {
       throw new Error(`Failed to fetch developers. Status: ${res.status}`);
@@ -107,7 +118,9 @@ const fetchDevelopers = async () => {
 
 const getTopAndBottomDeals = async () => {
   try {
-    const res = await fetch(`${BASE_URL}/deals/top-bottom/`);
+    const res = await fetch(`${BASE_URL}/deals/top-bottom/`, {
+      headers: getAuthHeaders(),
+    });
 
     if (!res.ok) {
       throw new Error(`Failed to fetch top/bottom deals. Status: ${res.status}`);
