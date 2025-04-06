@@ -1,28 +1,33 @@
-
-const BASE_URL = import.meta.env.VITE_BACKEND_SERVER_URL
+const BASE_URL = import.meta.env.VITE_BACKEND_SERVER_URL;
 
 const index = async (filters = {}, sortByLoanAmount = 'asc') => {
   try {
     const params = new URLSearchParams({ ...filters, sortByLoanAmount }).toString();
     const res = await fetch(`${BASE_URL}/deals/?${params}`);
-    
-    if (!res) {
-      throw new Error('No response from server');
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch deals. Status: ${res.status}`);
     }
-    
+
     return await res.json();
   } catch (error) {
     console.error('Failed to fetch deals:', error);
-    throw error; 
+    throw error;
   }
 };
 
 const show = async (dealId) => {
   try {
     const res = await fetch(`${BASE_URL}/deals/${dealId}/`);
-    return res.json();
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch deal ${dealId}. Status: ${res.status}`);
+    }
+
+    return await res.json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -44,17 +49,23 @@ const create = async (dealFormData) => {
 
     return await res.json();
   } catch (error) {
-    console.log(error);
+    console.error('Failed to create deal:', error);
+    throw error;
   }
 };
 
 const deleteDeal = async (dealId) => {
   try {
-    await fetch(`${BASE_URL}/deals/${dealId}/`, {
+    const res = await fetch(`${BASE_URL}/deals/${dealId}/`, {
       method: 'DELETE',
     });
+
+    if (!res.ok) {
+      throw new Error(`Failed to delete deal ${dealId}. Status: ${res.status}`);
+    }
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -67,31 +78,49 @@ const updateDeal = async (dealId, dealFormData) => {
       },
       body: JSON.stringify(dealFormData),
     });
-    return res.json();
+
+    if (!res.ok) {
+      throw new Error(`Failed to update deal ${dealId}. Status: ${res.status}`);
+    }
+
+    return await res.json();
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    throw error;
   }
 };
 
 const fetchDevelopers = async () => {
   try {
     const res = await fetch(`${BASE_URL}/developers/`);
-    return res.json();
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch developers. Status: ${res.status}`);
+    }
+
+    return await res.json();
   } catch (error) {
     console.error('Error fetching developers:', error);
+    throw error;
   }
 };
 
 const getTopAndBottomDeals = async () => {
   try {
     const res = await fetch(`${BASE_URL}/deals/top-bottom/`);
-    return res.json();
+
+    if (!res.ok) {
+      throw new Error(`Failed to fetch top/bottom deals. Status: ${res.status}`);
+    }
+
+    return await res.json();
   } catch (error) {
-    console.error(error);
+    console.error('Error fetching top and bottom deals:', error);
+    throw error;
   }
 };
 
-export { 
+export {
   index,
   show,
   create,
