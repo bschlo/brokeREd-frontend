@@ -12,7 +12,6 @@ import * as authService from '../src/services/authService';
 import * as dealService from '../src/services/dealService';
 import './App.css';
 import { LoadScript } from '@react-google-maps/api';
-import DealFilters from './components/DealList/DealFilters/DealFilters';
 import Footer from './components/Footer/Footer';
 
 export const AuthedUserContext = createContext(null);
@@ -22,15 +21,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [deals, setDeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const currentUser = authService.getUser();
-    if (currentUser) {
-      setUser(currentUser.user); 
-    }
-    setIsLoading(false);
-  }, []);
-
   const [filters, setFilters] = useState({
     storiesMin: '',
     storiesMax: '',
@@ -51,13 +41,22 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const currentUser = authService.getUser();
+    if (currentUser) {
+      setUser(currentUser.user);
+    }
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
     const fetchAllDeals = async () => {
-      if (user) {
-        const dealData = await dealService.index(filters, 'date');
-        setDeals(dealData);
-        console.log(user)
-      } else {
-        authService.signout();
+      try {
+        if (user) {
+          const dealData = await dealService.index(filters, 'date');
+          setDeals(dealData);
+        }
+      } catch (err) {
+        console.error("Error fetching deals:", err);
       }
     };
     fetchAllDeals();
@@ -65,7 +64,6 @@ const App = () => {
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
-
     if (name === 'clear') {
       setFilters({
         unitsMin: '',
@@ -93,31 +91,36 @@ const App = () => {
   const handleSignout = () => {
     authService.signout();
     setUser(null);
+    navigate('/signin');
   };
 
   const handleAddDeal = async (dealFormData) => {
-    const newDeal = await dealService.create(dealFormData);
-    setDeals([newDeal, ...deals]);
-    navigate('/deals');
+    try {
+      const newDeal = await dealService.create(dealFormData);
+      setDeals([newDeal, ...deals]);
+      navigate('/deals');
+    } catch (error) {
+      console.error('Failed to add deal:', error);
+    }
   };
 
   const handleDeleteDeal = async (dealId) => {
     try {
-      const deletedDeal = await dealService.deleteDeal(dealId);
-      setDeals(deals.filter((deal) => deal.id !== deletedDeal));
+      await dealService.deleteDeal(dealId);
+      setDeals(deals.filter((deal) => deal.id !== dealId));
       navigate('/deals');
     } catch (error) {
-      console.error(error);
+      console.error('Failed to delete deal:', error);
     }
   };
 
   const handleUpdateDeal = async (dealId, dealFormData) => {
     try {
       const updatedDeal = await dealService.updateDeal(dealId, dealFormData);
-      setDeals(deals.map((deal) => (dealId === deal.id ? updatedDeal : deal)));
+      setDeals(deals.map((deal) => (deal.id === dealId ? updatedDeal : deal)));
       navigate(`/deals/${dealId}`);
     } catch (error) {
-      console.error(error);
+      console.error('Failed to update deal:', error);
     }
   };
 
@@ -129,18 +132,28 @@ const App = () => {
         <div className="page-container">
           <NavBar handleSignout={handleSignout} />
           <div className="main-content">
-            {!isLoading ? (
+            {isLoading ? (
+              <div>Loading...</div>
+            ) : (
               <Routes>
                 {user ? (
                   <>
                     <Route path="/" element={<Dashboard user={user} deals={deals} />} />
                     <Route
                       path="/deals"
-                      element={<DealList setDeals={setDeals} deals={deals} filters={filters} handleFilterChange={handleFilterChange} />}
+                      element={
+                        <DealList
+                          setDeals={setDeals}
+                          deals={deals}
+                          filters={filters}
+                          handleFilterChange={handleFilterChange}
+                        />
+                      }
                     />
                     <Route path="/deals/:dealId" element={<DealDetails handleDeleteDeal={handleDeleteDeal} />} />
                     <Route path="/deals/new" element={<DealForm handleAddDeal={handleAddDeal} />} />
                     <Route path="/deals/:dealId/edit" element={<DealForm handleUpdateDeal={handleUpdateDeal} />} />
+                    <Route path="*" element={<Navigate to="/" replace />} />
                   </>
                 ) : (
                   <>
@@ -151,8 +164,6 @@ const App = () => {
                   </>
                 )}
               </Routes>
-            ) : (
-              <div>Loading...</div>
             )}
           </div>
           <Footer />
