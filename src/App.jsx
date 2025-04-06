@@ -55,6 +55,7 @@ const App = () => {
       if (user) {
         const dealData = await dealService.index(filters, 'date');
         setDeals(dealData);
+        console.log(user)
       } else {
         authService.signout();
       }

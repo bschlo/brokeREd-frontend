@@ -34,7 +34,7 @@ const signup = async (formData) => {
 
 const signin = async (user) => {
   try {
-    // Use regular fetch for authentication endpoints
+    
     const res = await fetch(`${BASE_URL}/users/login/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -88,29 +88,6 @@ const signout = () => {
   console.log("User has been signed out.");
 };
 
-const authFetch = async (endpoint, options = {}) => {
-  const token = localStorage.getItem('access');
 
-  if (!token) {
-    signout();
-    return null;
-  }
 
-  const res = await fetch(`${BASE_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      ...(options.headers || {}),
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (res.status === 401) {
-    signout();
-    return null;
-  }
-
-  return res;
-};
-
-export { signup, signin, getUser, signout, authFetch };
+export { signup, signin, getUser, signout};
